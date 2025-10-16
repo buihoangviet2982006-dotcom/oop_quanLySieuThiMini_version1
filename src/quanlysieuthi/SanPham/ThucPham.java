@@ -1,5 +1,10 @@
 package quanlysieuthi.SanPham;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ThucPham extends SanPham {
@@ -61,8 +66,23 @@ public class ThucPham extends SanPham {
     @Override
     public void xuat() {
         super.xuat();
-        System.out.printf(" hsd: %-11s | loai bao quan %-15s |\n",hsd,loaiBaoQuan);
+        System.out.printf(" hsd: %-16s | loai bao quan %-15s |\n",hsd,loaiBaoQuan);
 
     }
-
+    @Override
+    public void ghiFile(String tenFile) throws IOException{
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
+        super.ghiFile(tenFile);
+        outStream.writeUTF(hsd);
+        outStream.writeUTF(loaiBaoQuan);
+        outStream.close();              
+    }
+    @Override
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
+        super.docFile(tenFile);
+        hsd=inStream.readUTF();
+        loaiBaoQuan=inStream.readUTF();
+        inStream.close();
+    }
 }

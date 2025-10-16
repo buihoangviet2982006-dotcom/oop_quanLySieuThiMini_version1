@@ -1,5 +1,10 @@
 package quanlysieuthi.SanPham;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class SanPham {
@@ -81,5 +86,32 @@ public class SanPham {
     // Ham xuat thong tin san pham
     public void xuat() {
         System.out.printf("| %-11s | %-15s | %-8d | %-15s | %-10s | %-16s | %-13s |",maSP,tenSP,soLuong,String.format("%,.0f VND",donGia),xuatXu,maLoaiSP,nsx);
+    }
+
+    public void ghiFile(String tenFile) throws IOException{
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
+        outStream.writeUTF(maLoaiSP);
+        outStream.writeUTF(maSP);
+        outStream.writeUTF(tenSP);
+        outStream.writeInt(soLuong);
+        outStream.writeDouble(donGia);
+        outStream.writeUTF(xuatXu);
+        outStream.writeUTF(nsx);
+
+        outStream.close();
+               
+    }
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
+
+        maLoaiSP=inStream.readUTF();
+        maSP=inStream.readUTF();
+        tenSP=inStream.readUTF();
+        soLuong=inStream.readInt();
+        donGia=inStream.readDouble();
+        xuatXu=inStream.readUTF();
+        nsx=inStream.readUTF();
+
+        inStream.close();
     }
 }

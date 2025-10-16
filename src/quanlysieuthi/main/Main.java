@@ -1,6 +1,7 @@
 package quanlysieuthi.main;
 
 import quanlysieuthi.SanPham.DoGiaDung;
+import quanlysieuthi.SanPham.SanPham;
 import quanlysieuthi.SanPham.ThucPham;
 import quanlysieuthi.danhsach.DSSP;
 import quanlysieuthi.quanli.QLST;
@@ -8,11 +9,14 @@ import quanlysieuthi.danhsach.DSChiTietHD;
 import quanlysieuthi.danhsach.DSChiTietPNH;
 import quanlysieuthi.danhsach.DSHoaDon;
 import quanlysieuthi.danhsach.DSPhieuNhapHang;
+
+import java.io.IOException;
+
 import quanlysieuthi.Phieu.ChiTietPhieuNhap;
 import quanlysieuthi.Phieu.PhieuNhapHang;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         DSSP ds = new DSSP();
         ds.them(new DoGiaDung("DGD002", "chao", 15, 1200000, "Viet Nam", "DGD", "10/01/2021", "gang", 24000));
         ds.them(new DoGiaDung("DGD003", "am dien", 20, 250000.4, "Nhat Ban", "DGD", "05/03/2022", "inox", 18));
@@ -27,7 +31,9 @@ public class Main {
         ds.them(new ThucPham("TP005", "banh mi", 60, 10, "Viet Nam", "TP", "02/10/2025", "04/10/2025", "thuong"));
         ds.them(new ThucPham("TP006", "nuoc ngot", 200, 15, "My", "TP", "10/09/2025", "10/12/2025", "nhiet do phong"));
 
+        // ds.docFile("D:\\do_an_oop\\src\\quanlysieuthi\\dulieu\\sanpham.txt");
         QLST ql = new QLST(ds,new DSChiTietHD(),new DSHoaDon(),new DSChiTietPNH(),new DSPhieuNhapHang());
         ql.menu();
+
     }
 }

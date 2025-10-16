@@ -39,7 +39,6 @@ public class QLST {
     public void QLSP(){
         Scanner sc = new Scanner(System.in);
         int chon = 0;
-        String t;
         do{
             System.out.println("----------------------------------------------");
             System.out.println("             QUAN LY SAN PHAM");
@@ -65,27 +64,22 @@ public class QLST {
                     System.out.println("them thanh cong");
                     break;            
                 case 4:
-                    System.out.println("nhap ma san pham muon sua");   
-                    t = sc.nextLine();                 
-                    dsSP.sua(t);
+                    dsSP.sua();
                     System.out.println("sua thanh cong");
                     break;            
-                case 5:
-                    System.out.println("nhap ma san pham muon xoa");   
-                    t = sc.nextLine();                
-                    dsSP.xoa(t);
+                case 5:              
+                    dsSP.xoa();
                     System.out.println("xoa thanh cong");
                     break;
                 case 6:
-                    System.out.println("nhap ma san pham can tim"); 
-                    t = sc.nextLine();
-                    SanPham sp = dsSP.tim(t);
+                    SanPham sp;
+                    sp = dsSP.tim();
                     if(sp!=null){
                         System.out.printf("| %-10s | %-15s | %-5s | %-15s | %-10s | %-15s | %-10s | %-10s | %-29s |\n","Ma San Pham","Ten San Pham","So Luong","Don Gia","Xuat Xu","Ma Loai San Pham","Ngay San Xuat","Thong Tin Them 1","Thong Tin Them 2" );
                         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------");
                         sp.xuat();
                     }else{
-                        System.out.println("khong tim thay san pham "+t);
+                        System.out.println("khong tim thay san pham ");
                     }
                 default:
                     return;
@@ -269,7 +263,7 @@ public class QLST {
             maSP = sc.nextLine();
             if(maSP.equals("0")) break;            
 
-            sp = dsSP.tim(maSP);
+            sp = dsSP.timTheoMaSP(maSP);
             if(sp==null){
                 System.out.println("Khong tim thay san pham!!");
                 continue;
@@ -319,7 +313,7 @@ public class QLST {
             maSP = sc.nextLine();
             if(maSP.equals("0")) break;            
 
-            sp = dsSP.tim(maSP);
+            sp = dsSP.timTheoMaSP(maSP);
             if(sp==null){
                 System.out.println("Khong tim thay san pham!!");
                 continue;
