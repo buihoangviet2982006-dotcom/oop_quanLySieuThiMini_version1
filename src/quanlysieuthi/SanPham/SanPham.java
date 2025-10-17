@@ -2,12 +2,10 @@ package quanlysieuthi.SanPham;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class SanPham {
+public abstract class SanPham {
     private String maSP;
     private String tenSP;
     private int soLuong;
@@ -88,30 +86,23 @@ public class SanPham {
         System.out.printf("| %-11s | %-15s | %-8d | %-15s | %-10s | %-16s | %-13s |",maSP,tenSP,soLuong,String.format("%,.0f VND",donGia),xuatXu,maLoaiSP,nsx);
     }
 
-    public void ghiFile(String tenFile) throws IOException{
-        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
-        outStream.writeUTF(maLoaiSP);
-        outStream.writeUTF(maSP);
-        outStream.writeUTF(tenSP);
-        outStream.writeInt(soLuong);
-        outStream.writeDouble(donGia);
-        outStream.writeUTF(xuatXu);
-        outStream.writeUTF(nsx);
+    public abstract void ghiFile(String tenFile) throws IOException;
+    public abstract void docFile(String tenFile) throws IOException;
 
-        outStream.close();
-               
+    protected void ghiThongTinChung(DataOutputStream out) throws IOException{
+        out.writeUTF(maSP);
+        out.writeUTF(tenSP);
+        out.writeInt(soLuong);
+        out.writeDouble(donGia);
+        out.writeUTF(xuatXu);
+        out.writeUTF(nsx);
     }
-    public void docFile(String tenFile) throws IOException{
-        DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
-
-        maLoaiSP=inStream.readUTF();
-        maSP=inStream.readUTF();
-        tenSP=inStream.readUTF();
-        soLuong=inStream.readInt();
-        donGia=inStream.readDouble();
-        xuatXu=inStream.readUTF();
-        nsx=inStream.readUTF();
-
-        inStream.close();
+    protected void docThongTinChung(DataInputStream inp) throws IOException{
+        maSP=inp.readUTF();
+        tenSP=inp.readUTF();
+        soLuong=inp.readInt();
+        donGia=inp.readDouble();
+        xuatXu=inp.readUTF();
+        nsx=inp.readUTF();
     }
 }

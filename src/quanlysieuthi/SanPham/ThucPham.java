@@ -72,7 +72,8 @@ public class ThucPham extends SanPham {
     @Override
     public void ghiFile(String tenFile) throws IOException{
         DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
-        super.ghiFile(tenFile);
+        outStream.writeUTF("TP");
+        super.ghiThongTinChung(outStream);
         outStream.writeUTF(hsd);
         outStream.writeUTF(loaiBaoQuan);
         outStream.close();              
@@ -80,7 +81,8 @@ public class ThucPham extends SanPham {
     @Override
     public void docFile(String tenFile) throws IOException{
         DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
-        super.docFile(tenFile);
+        setMaLoaiSP(inStream.readUTF());
+        super.docThongTinChung(inStream);
         hsd=inStream.readUTF();
         loaiBaoQuan=inStream.readUTF();
         inStream.close();

@@ -1,6 +1,10 @@
 package quanlysieuthi.danhsach;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Scanner;
+
 import quanlysieuthi.hoadon.HoaDon;
 
 public class DSHoaDon {
@@ -149,4 +153,18 @@ public class DSHoaDon {
         }
     }
 
+    public void ghiFile(String tenFile) throws IOException{
+        for(int i=0;i<danhSachHD.length;i++){
+            danhSachHD[i].ghiFile(tenFile);
+        }
+    }
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        try {
+            while (true) {
+                them(new HoaDon(inpStream.readUTF(),inpStream.readUTF(),inpStream.readUTF(),
+                                        inpStream.readUTF(),inpStream.readUTF(),inpStream.readDouble()));
+            }
+        } catch (Exception e) {}
+    }
 }

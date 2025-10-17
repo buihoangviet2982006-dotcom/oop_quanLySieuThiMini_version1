@@ -1,5 +1,10 @@
 package quanlysieuthi.hoadon;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class HoaDon {
@@ -14,7 +19,7 @@ public class HoaDon {
     public HoaDon() {}
 
     // Constructor đầy đủ
-    public HoaDon(String maHD, String ngayTao, String hinhThucTT, double tongTien, String maNV, String maKH) {
+    public HoaDon(String maHD,String maNV, String maKH, String ngayTao, String hinhThucTT, double tongTien) {
         this.maHD = maHD;
         this.ngayTao = ngayTao;
         this.hinhThucTT = hinhThucTT;
@@ -110,7 +115,29 @@ public class HoaDon {
         System.out.println("Tong tien: " + String.format("%,.0f VND",tongTien ));
 
     }
+    public void ghiFile(String tenFile) throws IOException{
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile,Boolean.TRUE));
+        outStream.writeUTF(maHD);
+        outStream.writeUTF(maNV);
+        outStream.writeUTF(maKH);
+        outStream.writeUTF(ngayTao);
+        outStream.writeUTF(hinhThucTT);
+        outStream.writeDouble(tongTien);
 
+        outStream.close();
+    }
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        maHD=inpStream.readUTF();
+        maNV=inpStream.readUTF();
+        maKH=inpStream.readUTF();
+        ngayTao=inpStream.readUTF();
+        hinhThucTT=inpStream.readUTF();
+        tongTien=inpStream.readDouble();
+
+        inpStream.close();
+    }
+    
 
 
 }

@@ -1,5 +1,10 @@
 package quanlysieuthi.hoadon;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ChiTietHoaDon {
@@ -13,12 +18,12 @@ public class ChiTietHoaDon {
     public ChiTietHoaDon() {}
 
     // Constructor đầy đủ
-    public ChiTietHoaDon(String maHD, String maSP, int soLuong, double donGia) {
+    public ChiTietHoaDon(String maHD, String maSP, int soLuong, double donGia,double thanhTien) {
         this.maHD = maHD;
         this.maSP = maSP;
         this.soLuong = soLuong;
         this.donGia = donGia;
-        this.thanhTien = soLuong * donGia; // tự động tính
+        this.thanhTien = thanhTien; // tự động tính
     }
 
     // Copy constructor
@@ -95,6 +100,26 @@ public class ChiTietHoaDon {
         System.out.println("Thanh tien: " + thanhTien);
     }
 
+    public void ghiFile(String tenFile) throws IOException{
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile,Boolean.TRUE));
+        outStream.writeUTF(maHD);
+        outStream.writeUTF(maSP);
+        outStream.writeInt(soLuong);
+        outStream.writeDouble(donGia);
+        outStream.writeDouble(thanhTien);
+
+        outStream.close();
+    }
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        maHD=inpStream.readUTF();
+        maSP=inpStream.readUTF();
+        soLuong=inpStream.readInt();
+        donGia=inpStream.readDouble();
+        thanhTien=inpStream.readDouble();
+
+        inpStream.close();
+    }    
 
 }
 

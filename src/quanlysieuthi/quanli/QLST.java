@@ -1,5 +1,6 @@
 package quanlysieuthi.quanli;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -14,6 +15,7 @@ import quanlysieuthi.danhsach.DSPhieuNhapHang;
 import quanlysieuthi.danhsach.DSSP;
 import quanlysieuthi.hoadon.ChiTietHoaDon;
 import quanlysieuthi.hoadon.HoaDon;
+import quanlysieuthi.tienich.DuongDan;
 
 public class QLST {
     private DSSP dsSP;
@@ -49,7 +51,9 @@ public class QLST {
             System.out.println("4.Sua san pham");
             System.out.println("5.Xoa san pham");
             System.out.println("6.Tim san pham");
-            System.out.println("7.Thoat");
+            System.out.println("7.Ghi FILE");
+            System.out.println("8.Doc FILE");
+            System.out.println("9.Thoat");
             System.out.println("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
             switch (chon) {
@@ -81,6 +85,20 @@ public class QLST {
                     }else{
                         System.out.println("khong tim thay san pham ");
                     }
+                case 7:
+                    try {
+                        dsSP.ghiFile(DuongDan.SANPHAM_FILE_PATH);
+                        System.out.println("Ghi File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                case 8:
+                    try {
+                        dsSP.docFile(DuongDan.SANPHAM_FILE_PATH);
+                        System.out.println("Doc File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    }                
                 default:
                     return;
             }
@@ -99,7 +117,9 @@ public class QLST {
             System.out.println("3. Sua hoa don");
             System.out.println("4. Xoa hoa don");
             System.out.println("5. Tim hoa don");
-            System.out.println("6. Thoat");
+            System.out.println("6. Ghi FILE");
+            System.out.println("7. Doc FILE");
+            System.out.println("8. Thoat");
             System.out.print("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
 
@@ -120,6 +140,20 @@ public class QLST {
                     dsHD.timHoaDon();
                     break;
                 case 6:
+                    try {
+                        dsHD.ghiFile(DuongDan.HOADON_FILE_PATH);
+                        System.out.println("Ghi File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                case 7:
+                    try {
+                        dsHD.docFile(DuongDan.HOADON_FILE_PATH);
+                        System.out.println("Doc File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    }                                    
+                case 8:
                     System.out.println("Thoat danh sach hoa don");
                     break;
                 default:
@@ -140,7 +174,9 @@ public class QLST {
             System.out.println("3. Sua chi tiet hoa don");
             System.out.println("4. Xoa chi tiet hoa don");
             System.out.println("5. Tim chi tiet hoa don");
-            System.out.println("6. Thoat");
+            System.out.println("6. Ghi FILE");
+            System.out.println("7. Doc FILE");
+            System.out.println("8. Thoat");
             System.out.print("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
 
@@ -161,6 +197,20 @@ public class QLST {
                     dsCTHD.timChiTietHD();
                     break;
                 case 6:
+                    try {
+                        dsCTHD.ghiFile(DuongDan.CTHOADON_FILE_PATH);
+                        System.out.println("Ghi File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                case 7:
+                    try {
+                        dsCTHD.docFile(DuongDan.CTHOADON_FILE_PATH);
+                        System.out.println("Doc File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    } 
+                case 8:
                     System.out.println("Thoat danh sach chi tiet hoa don");
                     break;
                 default:
@@ -180,7 +230,9 @@ public class QLST {
             System.out.println("2. Xuat danh sach phieu nhap hang");
             System.out.println("3. Sua phieu nhap hang");
             System.out.println("4. Xoa phieu nhap hang");
-            System.out.println("5. Thoat");
+            System.out.println("5. Ghi FILE");
+            System.out.println("6. Doc FILE");
+            System.out.println("7. Thoat");
             System.out.print("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
 
@@ -198,6 +250,20 @@ public class QLST {
                     dsPNH.xoa();
                     break;
                 case 5:
+                    try {
+                        dsPNH.ghiFile(DuongDan.PHIEUNHAP_FILE_PATH);
+                        System.out.println("Ghi File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                case 6:
+                    try {
+                        dsPNH.docFile(DuongDan.PHIEUNHAP_FILE_PATH);
+                        System.out.println("Doc File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    } 
+                case 7:
                     System.out.println("Thoat danh sach phieu nhap hang");
                     break;
                 default:
@@ -217,7 +283,9 @@ public class QLST {
             System.out.println("2. Xuat danh sach chi tiet phieu nhap");
             System.out.println("3. Sua chi tiet phieu nhap");
             System.out.println("4. Xoa chi tiet phieu nhap");
-            System.out.println("5. Thoat");
+            System.out.println("5. Ghi FILE");
+            System.out.println("6. Doc FILE");
+            System.out.println("7. Thoat");
             System.out.print("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
 
@@ -235,6 +303,20 @@ public class QLST {
                     dsCTPNH.xoa();
                     break;
                 case 5:
+                    try {
+                        dsCTPNH.ghiFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
+                        System.out.println("Ghi File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                case 6:
+                    try {
+                        dsCTPNH.docFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
+                        System.out.println("Doc File thanh cong");
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    } 
+                case 7:
                     System.out.println("Thoat danh sach chi tiet phieu nhap");
                     break;
                 default:
@@ -279,7 +361,7 @@ public class QLST {
             System.out.println("=>Thanh tien: " + String.format("%,.0f VND", (double)soLuong*sp.getDonGia()) +"\n" );
             sp.setSoLuong(sp.getSoLuong()-soLuong);
             tongTien += soLuong*sp.getDonGia();
-            dsCTHD.them(new ChiTietHoaDon(maHD,maSP,soLuong,sp.getDonGia()));
+            dsCTHD.them(new ChiTietHoaDon(maHD,maSP,soLuong,sp.getDonGia(),soLuong*sp.getDonGia()));
         }
         System.out.println("----------------------------------------------");    
         System.out.println("=>Tong tien: " + String.format("%,.0f VND", tongTien));    
@@ -287,7 +369,7 @@ public class QLST {
         httt = sc.nextLine();
 
         String ngayTaoHoaDon = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        HoaDon hd = new HoaDon(maHD,ngayTaoHoaDon,httt,tongTien,maNV,maKH);
+        HoaDon hd = new HoaDon(maHD,maNV,maKH,ngayTaoHoaDon,httt,tongTien);
         dsHD.them(hd);
         hd.xuat();
     }
@@ -329,13 +411,13 @@ public class QLST {
 
             tongTien+= soLuong*sp.getDonGia();
             sp.setSoLuong(sp.getSoLuong()+soLuong);
-            dsCTPNH.them(new ChiTietPhieuNhap(maPNH, maSP, soLuong, sp.getDonGia()));
+            dsCTPNH.them(new ChiTietPhieuNhap(maPNH, maSP, soLuong, sp.getDonGia(),soLuong*sp.getDonGia()));
         }
         System.out.println("----------------------------------------------");    
         System.out.println("=>Tong tien: " + String.format("%,.0f VND", tongTien) + "\n");  
 
         String ngayTaoPhieuNhapHang = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        PhieuNhapHang pnh = new PhieuNhapHang(maPNH, ngayTaoPhieuNhapHang, maNCC, tongTien, maNV);
+        PhieuNhapHang pnh = new PhieuNhapHang(maPNH,maNCC,maNV,ngayTaoPhieuNhapHang,tongTien);
         dsPNH.them(pnh);
         pnh.xuat();
 

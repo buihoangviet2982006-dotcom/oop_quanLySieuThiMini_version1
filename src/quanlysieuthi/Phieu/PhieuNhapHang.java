@@ -1,5 +1,10 @@
 package quanlysieuthi.Phieu;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class PhieuNhapHang {
@@ -13,7 +18,7 @@ public class PhieuNhapHang {
     public PhieuNhapHang() {}
 
     // Constructor đầy đủ
-    public PhieuNhapHang(String maPNH, String ngayNhap, String maNCC, double tongTien, String maNV) {
+    public PhieuNhapHang(String maPNH,  String maNCC,String maNV,String ngayNhap, double tongTien ) {
         this.maPNH = maPNH;
         this.ngayNhap = ngayNhap;
         this.maNCC = maNCC;
@@ -97,6 +102,25 @@ public class PhieuNhapHang {
 
     }
 
+    public void ghiFile(String tenFile) throws IOException{
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile,Boolean.TRUE));
+        outStream.writeUTF(maPNH);
+        outStream.writeUTF(maNCC);
+        outStream.writeUTF(maNV);
+        outStream.writeUTF(ngayNhap);
+        outStream.writeDouble(tongTien);
 
+        outStream.close();
+    }
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        maPNH=inpStream.readUTF();
+        maNCC=inpStream.readUTF();
+        maNV=inpStream.readUTF();
+        ngayNhap=inpStream.readUTF();
+        tongTien=inpStream.readDouble();
+
+        inpStream.close();
+    }
 }
 

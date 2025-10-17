@@ -59,7 +59,8 @@ public class DoGiaDung extends SanPham {
     @Override
     public void ghiFile(String tenFile) throws IOException{
         DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
-        super.ghiFile(tenFile);
+        outStream.writeUTF("DGD");
+        super.ghiThongTinChung(outStream);
         outStream.writeUTF(chatLieu);
         outStream.writeInt(baoHanh);
         outStream.close();              
@@ -67,7 +68,8 @@ public class DoGiaDung extends SanPham {
     @Override
     public void docFile(String tenFile) throws IOException{
         DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
-        super.docFile(tenFile);
+        setMaLoaiSP(inStream.readUTF());
+        super.docThongTinChung(inStream);
         chatLieu=inStream.readUTF();
         baoHanh=inStream.readInt();
         inStream.close();

@@ -1,5 +1,8 @@
 package quanlysieuthi.danhsach;
 
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Scanner;
 import quanlysieuthi.Phieu.PhieuNhapHang;
 
@@ -162,5 +165,19 @@ public class DSPhieuNhapHang {
         System.out.println("Da xoa phieu co maPNH = " + ma);
     }
 
+    public void ghiFile(String tenFile) throws IOException{
+        for(int i=0;i<danhSachPNH.length;i++){
+            danhSachPNH[i].ghiFile(tenFile);
+        }
+    }
+    public void docFile(String tenFile) throws IOException{
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        try {
+            while (true) {
+                them(new PhieuNhapHang(inpStream.readUTF(),inpStream.readUTF(),inpStream.readUTF(),
+                                        inpStream.readUTF(),inpStream.readDouble()));
+            }
+        } catch (Exception e) {}
+    }
 
 }
