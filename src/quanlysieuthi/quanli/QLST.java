@@ -89,6 +89,7 @@ public class QLST {
                     try {
                         dsSP.ghiFile(DuongDan.SANPHAM_FILE_PATH);
                         System.out.println("Ghi File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
@@ -96,6 +97,7 @@ public class QLST {
                     try {
                         dsSP.docFile(DuongDan.SANPHAM_FILE_PATH);
                         System.out.println("Doc File thanh cong");
+                        break;                        
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     }                
@@ -143,6 +145,7 @@ public class QLST {
                     try {
                         dsHD.ghiFile(DuongDan.HOADON_FILE_PATH);
                         System.out.println("Ghi File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
@@ -150,6 +153,7 @@ public class QLST {
                     try {
                         dsHD.docFile(DuongDan.HOADON_FILE_PATH);
                         System.out.println("Doc File thanh cong");
+                        break;                        
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     }                                    
@@ -159,7 +163,7 @@ public class QLST {
                 default:
                     System.out.println("Lua chon khong hop le");
             }
-        } while (chon != 6);
+        } while (chon != 8);
     }        
     
     public void QLCTHD(){
@@ -200,6 +204,7 @@ public class QLST {
                     try {
                         dsCTHD.ghiFile(DuongDan.CTHOADON_FILE_PATH);
                         System.out.println("Ghi File thanh cong");
+                        break;                        
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
@@ -207,6 +212,7 @@ public class QLST {
                     try {
                         dsCTHD.docFile(DuongDan.CTHOADON_FILE_PATH);
                         System.out.println("Doc File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     } 
@@ -216,7 +222,7 @@ public class QLST {
                 default:
                     System.out.println("Lua chon khong hop le");
             }
-        } while (chon != 6);        
+        } while (chon != 8);        
     }
 
     public void QLPNH(){
@@ -253,6 +259,7 @@ public class QLST {
                     try {
                         dsPNH.ghiFile(DuongDan.PHIEUNHAP_FILE_PATH);
                         System.out.println("Ghi File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
@@ -260,6 +267,7 @@ public class QLST {
                     try {
                         dsPNH.docFile(DuongDan.PHIEUNHAP_FILE_PATH);
                         System.out.println("Doc File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     } 
@@ -269,7 +277,7 @@ public class QLST {
                 default:
                     System.out.println("Lua chon khong hop le");
             }
-        } while (chon != 5);
+        } while (chon != 7);
     }
 
     public void QLCTPNH(){
@@ -306,6 +314,7 @@ public class QLST {
                     try {
                         dsCTPNH.ghiFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
                         System.out.println("Ghi File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
@@ -313,6 +322,7 @@ public class QLST {
                     try {
                         dsCTPNH.docFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
                         System.out.println("Doc File thanh cong");
+                        break;
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     } 
@@ -322,7 +332,7 @@ public class QLST {
                 default:
                     System.out.println("Lua chon khong hop le");
             }
-        } while (chon != 5);        
+        } while (chon != 7);        
     }
     public void mua(){
         Scanner sc = new Scanner(System.in);
