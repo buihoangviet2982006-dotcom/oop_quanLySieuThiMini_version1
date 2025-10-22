@@ -15,6 +15,7 @@ import quanlysieuthi.danhsach.DSPhieuNhapHang;
 import quanlysieuthi.danhsach.DSSP;
 import quanlysieuthi.hoadon.ChiTietHoaDon;
 import quanlysieuthi.hoadon.HoaDon;
+import quanlysieuthi.thongke.ThongKe;
 import quanlysieuthi.tienich.DuongDan;
 
 public class QLST {
@@ -23,13 +24,14 @@ public class QLST {
     private DSHoaDon dsHD;
     private DSPhieuNhapHang dsPNH;
     private DSChiTietPNH dsCTPNH;
-
+    private ThongKe tk;
     public QLST(){
         dsSP = new DSSP();
         dsCTHD = new DSChiTietHD();
         dsHD = new DSHoaDon();
         dsCTPNH = new DSChiTietPNH();
         dsPNH = new DSPhieuNhapHang();
+        tk = new ThongKe(dsSP, dsCTHD, dsHD, dsCTPNH, dsPNH);
     }
     public QLST(DSSP dsSP,DSChiTietHD dsCTHD,DSHoaDon dsHD,DSChiTietPNH dsCTPNH,DSPhieuNhapHang dsPNH){
         this.dsCTHD = dsCTHD;
@@ -37,6 +39,7 @@ public class QLST {
         this.dsCTPNH = dsCTPNH;
         this.dsPNH = dsPNH;
         this.dsSP = dsSP;
+        tk = new ThongKe(dsSP, dsCTHD, dsHD, dsCTPNH, dsPNH);
     }
     public void QLSP(){
         Scanner sc = new Scanner(System.in);
@@ -334,6 +337,34 @@ public class QLST {
             }
         } while (chon != 7);        
     }
+    public void menuThongKe(){
+        Scanner sc = new Scanner(System.in);
+        int chon =0;
+        do{
+            System.out.println("----------------------------------------------");
+            System.out.println("                  THONG KE");
+            System.out.println("----------------------------------------------");
+            System.out.println("1. Thong ke tong tien hoa don theo khoang ngay");
+            System.out.println("2. Thong ke tong tien theo quy");
+            System.out.println("3. Thong ke tong tien hoa don theo ma KH");
+            System.out.println("4. Thoat");
+            System.out.print("Chon: ");  
+            chon = Integer.parseInt(sc.nextLine());
+            switch (chon) {
+                case 1:
+                    tk.ThongKeTheoKhoangNgay();
+                    break;
+                case 2:
+                    tk.ThongKeTongTienTheoQuy();
+                    break;
+                case 3:
+                    tk.ThongKeTongTienKHTheoQuy();    
+                    break;
+                default:
+                    return;
+            }          
+        }while(true);
+    }
     public void mua(){
         Scanner sc = new Scanner(System.in);
         String maHD,maKH,maNV,maSP,httt;
@@ -446,6 +477,8 @@ public class QLST {
             System.out.println("5.Quan ly chi tiet phieu nhap");
             System.out.println("6.Mua hang");
             System.out.println("7.Nhap hang");
+            System.out.println("8.Thong ke");
+            System.out.println("9.Thoat");
             System.out.println("Chon :");
             chon = Integer.parseInt(sc.nextLine());
             switch (chon) {
@@ -469,7 +502,10 @@ public class QLST {
                     break;  
                 case 7:
                     nhapHang();
-                    break;              
+                    break; 
+                case 8:
+                    menuThongKe();
+                    break;             
                 default:
                     return;
             }
