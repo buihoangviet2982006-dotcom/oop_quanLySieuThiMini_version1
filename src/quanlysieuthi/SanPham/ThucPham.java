@@ -1,13 +1,11 @@
 package quanlysieuthi.SanPham;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class ThucPham extends SanPham {
+public class ThucPham extends SanPham{
     private String hsd;          
     private String loaiBaoQuan; 
 
@@ -18,9 +16,9 @@ public class ThucPham extends SanPham {
 
     // Constructor co tham so
     public ThucPham(String maSP, String tenSP, int soLuong, double donGia,
-                    String xuatXu, String maLoaiSP, String nsx,
+                    String xuatXu, String nsx,
                     String hsd, String loaiBaoQuan) {
-        super(maSP, tenSP, soLuong, donGia, xuatXu, maLoaiSP, nsx);
+        super(maSP, tenSP, soLuong, donGia, xuatXu, "TP", nsx);
         this.hsd = hsd;
         this.loaiBaoQuan = loaiBaoQuan;
     }
@@ -60,6 +58,7 @@ public class ThucPham extends SanPham {
 
         System.out.print("Nhap loai bao quan: ");
         loaiBaoQuan = sc.nextLine();
+        super.setMaLoaiSP("TP");
     }
 
     // Ham xuat
@@ -78,13 +77,5 @@ public class ThucPham extends SanPham {
         outStream.writeUTF(loaiBaoQuan);
         outStream.close();              
     }
-    @Override
-    public void docFile(String tenFile) throws IOException{
-        DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
-        setMaLoaiSP(inStream.readUTF());
-        super.docThongTinChung(inStream);
-        hsd=inStream.readUTF();
-        loaiBaoQuan=inStream.readUTF();
-        inStream.close();
-    }
+
 }

@@ -1,11 +1,12 @@
 package quanlysieuthi.SanPham;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public abstract class SanPham {
+import quanlysieuthi.interfaces.INhapXuat;
+
+public abstract class SanPham implements INhapXuat {
     private String maSP;
     private String tenSP;
     private int soLuong;
@@ -75,8 +76,6 @@ public abstract class SanPham {
         donGia = Double.parseDouble(sc.nextLine());
         System.out.print("Nhap xuat xu: ");
         xuatXu = sc.nextLine();
-        System.out.print("Nhap ma loai san pham: ");
-        maLoaiSP = sc.nextLine();
         System.out.print("Nhap ngay san xuat: ");
         nsx = sc.nextLine();
     }
@@ -87,9 +86,8 @@ public abstract class SanPham {
     }
 
     public abstract void ghiFile(String tenFile) throws IOException;
-    public abstract void docFile(String tenFile) throws IOException;
 
-    protected void ghiThongTinChung(DataOutputStream out) throws IOException{
+    public void ghiThongTinChung(DataOutputStream out) throws IOException{
         out.writeUTF(maSP);
         out.writeUTF(tenSP);
         out.writeInt(soLuong);
@@ -97,12 +95,5 @@ public abstract class SanPham {
         out.writeUTF(xuatXu);
         out.writeUTF(nsx);
     }
-    protected void docThongTinChung(DataInputStream inp) throws IOException{
-        maSP=inp.readUTF();
-        tenSP=inp.readUTF();
-        soLuong=inp.readInt();
-        donGia=inp.readDouble();
-        xuatXu=inp.readUTF();
-        nsx=inp.readUTF();
-    }
+
 }

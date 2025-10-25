@@ -10,8 +10,10 @@ import java.util.Scanner;
 import quanlysieuthi.SanPham.DoGiaDung;
 import quanlysieuthi.SanPham.SanPham;
 import quanlysieuthi.SanPham.ThucPham;
+import quanlysieuthi.interfaces.IDanhSach;
+import quanlysieuthi.interfaces.INhapXuat;
 
-public class DSSP {
+public class DSSP implements IDanhSach<SanPham>,INhapXuat{
     private SanPham[] danhSachSP;
 
     public DSSP(){
@@ -69,6 +71,10 @@ public class DSSP {
         }
     }
     public void xuat(){
+        if(danhSachSP.length == 0){
+            System.out.println("Danh sach trong !");
+            return;
+        }
         System.out.printf("| %-10s | %-15s | %-5s | %-15s | %-10s | %-15s | %-10s | %-21s | %-29s |\n","Ma San Pham","Ten San Pham","So Luong","Don Gia","Xuat Xu","Ma Loai San Pham","Ngay San Xuat","Thong Tin Them 1","Thong Tin Them 2" );
         for(int i=0;i<danhSachSP.length;i++){
             System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -313,11 +319,11 @@ public class DSSP {
                 maLoai = inStream.readUTF();
                 if(maLoai.equals("TP")){
                     them(new ThucPham(inStream.readUTF(),inStream.readUTF(),inStream.readInt(),
-                                        inStream.readDouble(),inStream.readUTF(),maLoai,
+                                        inStream.readDouble(),inStream.readUTF(),
                                         inStream.readUTF(),inStream.readUTF(),inStream.readUTF()));
                 }else if(maLoai.equals("DGD")){
                     them(new DoGiaDung(inStream.readUTF(),inStream.readUTF(),inStream.readInt(),
-                                        inStream.readDouble(),inStream.readUTF(),maLoai,
+                                        inStream.readDouble(),inStream.readUTF(),
                                         inStream.readUTF(),inStream.readUTF(),inStream.readInt()));
                 }
             }

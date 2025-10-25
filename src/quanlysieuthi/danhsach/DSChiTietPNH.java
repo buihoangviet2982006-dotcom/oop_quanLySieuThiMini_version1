@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import quanlysieuthi.Phieu.ChiTietPhieuNhap;
+import quanlysieuthi.interfaces.IDanhSach;
+import quanlysieuthi.interfaces.INhapXuat; 
 
-public class DSChiTietPNH {
+public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat { 
     private ChiTietPhieuNhap[] danhSachCTPNH;
 
     // Constructor
@@ -35,14 +37,42 @@ public class DSChiTietPNH {
         }
         return tongTien;
     }
-    public ChiTietPhieuNhap timTheoMa(String maPNH) {
+
+    // --- SỬA LẠI LOGIC TÌM KIẾM ---
+    
+    // Hàm tìm kiếm nội bộ chính xác (theo composite key)
+    public ChiTietPhieuNhap timChiTiet(String maPNH, String maSP) {
         for (int i = 0; i < danhSachCTPNH.length; i++) {
-            if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH)) {
+            if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH) && 
+                danhSachCTPNH[i].getMaSP().equalsIgnoreCase(maSP)) {
                 return danhSachCTPNH[i];
             }
         }
         return null;
     }
+
+    // Hàm tìm vị trí nội bộ chính xác
+    public int timViTri(String maPNH, String maSP) {
+        for (int i = 0; i < danhSachCTPNH.length; i++) {
+            if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH) && 
+                danhSachCTPNH[i].getMaSP().equalsIgnoreCase(maSP)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    // Hàm tim() của Interface (sửa lại để tìm chính xác)
+    public ChiTietPhieuNhap tim() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nhap ma phieu nhap (MaPNH) can tim: ");
+        String maPNH = sc.nextLine();
+        System.out.print("Nhap ma san pham (MaSP) can tim: ");
+        String maSP = sc.nextLine();
+        return timChiTiet(maPNH, maSP);
+    }
+
+    // --- SỬA LẠI LOGIC NHẬP / THÊM (Bỏ kiểm tra trùng MaPNH) ---
 
     public void them() {
         Scanner sc = new Scanner(System.in);
@@ -50,33 +80,26 @@ public class DSChiTietPNH {
         int n = Integer.parseInt(sc.nextLine());
 
         for (int i = 0; i < n; i++) {
-            boolean hopLe = false;
-            while (!hopLe) {
-                System.out.println("\nNhap chi tiet phieu nhap thu " + (danhSachCTPNH.length + 1) + ":");
-                ChiTietPhieuNhap ctpn = new ChiTietPhieuNhap();
-                ctpn.nhap();
+            System.out.println("\nNhap chi tiet phieu nhap thu " + (danhSachCTPNH.length + 1) + ":");
+            ChiTietPhieuNhap ctpn = new ChiTietPhieuNhap();
+            ctpn.nhap();
 
-                if (timTheoMa(ctpn.getMaPNH()) != null) {
-                    System.out.println("MaPNH da ton tai! Moi nhap lai.");
-                } else {
-                    ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
-                    for (int j = 0; j < danhSachCTPNH.length; j++) {
-                        newArr[j] = danhSachCTPNH[j];
-                    }
-                    newArr[danhSachCTPNH.length] = ctpn;
-                    danhSachCTPNH = newArr;
-                    hopLe = true;
-                }
+            // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaPNH (vì nó sai)
+
+            ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
+            for (int j = 0; j < danhSachCTPNH.length; j++) {
+                newArr[j] = danhSachCTPNH[j];
             }
+            newArr[danhSachCTPNH.length] = ctpn;
+            danhSachCTPNH = newArr;
         }
         System.out.println("Them thanh cong!");
     }
 
+    // Sửa lại hàm them(object) để bỏ kiểm tra trùng lặp sai
     public void them(ChiTietPhieuNhap ctpn) {
-        if (timTheoMa(ctpn.getMaPNH()) != null) {
-            System.out.println("MaPNH da ton tai!");
-            return;
-        }
+        // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaPNH (vì nó sai)
+        
         ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
         for (int i = 0; i < danhSachCTPNH.length; i++) {
             newArr[i] = danhSachCTPNH[i];
@@ -91,24 +114,18 @@ public class DSChiTietPNH {
         int n = Integer.parseInt(sc.nextLine());
 
         for (int i = 0; i < n; i++) {
-            boolean hopLe = false;
-            while (!hopLe) {
-                System.out.println("\nNhap chi tiet phieu nhap thu " + (danhSachCTPNH.length + 1) + ":");
-                ChiTietPhieuNhap ctpn = new ChiTietPhieuNhap();
-                ctpn.nhap();
+            System.out.println("\nNhap chi tiet phieu nhap thu " + (danhSachCTPNH.length + 1) + ":");
+            ChiTietPhieuNhap ctpn = new ChiTietPhieuNhap();
+            ctpn.nhap();
 
-                if (timTheoMa(ctpn.getMaPNH()) != null) {
-                    System.out.println("MaPNH da ton tai! Moi nhap lai.");
-                } else {
-                    ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
-                    for (int j = 0; j < danhSachCTPNH.length; j++) {
-                        newArr[j] = danhSachCTPNH[j];
-                    }
-                    newArr[danhSachCTPNH.length] = ctpn;
-                    danhSachCTPNH = newArr;
-                    hopLe = true;
-                }
+            // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaPNH (vì nó sai)
+
+            ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
+            for (int j = 0; j < danhSachCTPNH.length; j++) {
+                newArr[j] = danhSachCTPNH[j];
             }
+            newArr[danhSachCTPNH.length] = ctpn;
+            danhSachCTPNH = newArr;
         }
         System.out.println("Nhap danh sach thanh cong!");
     }
@@ -124,6 +141,8 @@ public class DSChiTietPNH {
         }
     }
 
+    // --- SỬA LẠI LOGIC SỬA / XÓA (để tìm chính xác) ---
+
     public void sua() {
         Scanner sc = new Scanner(System.in);
         if (danhSachCTPNH.length == 0) {
@@ -131,14 +150,22 @@ public class DSChiTietPNH {
             return;
         }
         System.out.print("Nhap maPNH can sua: ");
-        String ma = sc.nextLine();
-        ChiTietPhieuNhap ctpn = timTheoMa(ma);
+        String maPNH = sc.nextLine();
+        System.out.print("Nhap maSP can sua: ");
+        String maSP = sc.nextLine();
+
+        ChiTietPhieuNhap ctpn = timChiTiet(maPNH, maSP);
         if (ctpn == null) {
-            System.out.println("Khong tim thay chi tiet voi ma PNH = " + ma);
+            System.out.println("Khong tim thay chi tiet voi MaPNH = " + maPNH + " va MaSP = " + maSP);
             return;
         }
-        System.out.println("Nhap lai thong tin cho chi tiet phieu nhap co ma PNH = " + ma + ":");
-        ctpn.nhap();
+        System.out.println("Nhap lai thong tin cho chi tiet phieu nhap nay:");
+        // Chỉ cho phép sửa số lượng, đơn giá
+        System.out.print("Nhap so luong moi: ");
+        ctpn.setSoLuong(Integer.parseInt(sc.nextLine()));
+        System.out.print("Nhap don gia moi: ");
+        ctpn.setDonGia(Double.parseDouble(sc.nextLine()));
+
         System.out.println("Da sua thong tin!");
     }
 
@@ -149,16 +176,14 @@ public class DSChiTietPNH {
             return;
         }
         System.out.print("Nhap maPNH can xoa: ");
-        String ma = sc.nextLine();
-        int vt = -1;
-        for (int i = 0; i < danhSachCTPNH.length; i++) {
-            if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(ma)) {
-                vt = i;
-                break;
-            }
-        }
+        String maPNH = sc.nextLine();
+        System.out.print("Nhap maSP can xoa: ");
+        String maSP = sc.nextLine();
+        
+        int vt = timViTri(maPNH, maSP);
+
         if (vt == -1) {
-            System.out.println("Khong tim thay chi tiet voi ma PNH = " + ma);
+            System.out.println("Khong tim thay chi tiet voi MaPNH = " + maPNH + " va MaSP = " + maSP);
             return;
         }
 
@@ -169,7 +194,7 @@ public class DSChiTietPNH {
             }
         }
         danhSachCTPNH = newArr;
-        System.out.println("Da xoa chi tiet voi ma PNH = " + ma);
+        System.out.println("Da xoa chi tiet");
     }
 
     public void ghiFile(String tenFile) throws IOException{
@@ -182,7 +207,7 @@ public class DSChiTietPNH {
         try {
             while (true) {
                 them(new ChiTietPhieuNhap(inpStream.readUTF(),inpStream.readUTF(),inpStream.readInt(),
-                                        inpStream.readDouble(),inpStream.readDouble()));
+                                        inpStream.readDouble()));
             }
         } catch (Exception e) {}
     }

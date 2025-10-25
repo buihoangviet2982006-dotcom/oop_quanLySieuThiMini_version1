@@ -1,13 +1,13 @@
 package quanlysieuthi.hoadon;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class HoaDon {
+import quanlysieuthi.interfaces.INhapXuat;
+
+public class HoaDon  implements INhapXuat{
     private String maHD;
     private String ngayTao;
     private String hinhThucTT;
@@ -126,18 +126,5 @@ public class HoaDon {
 
         outStream.close();
     }
-    public void docFile(String tenFile) throws IOException{
-        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
-        maHD=inpStream.readUTF();
-        maNV=inpStream.readUTF();
-        maKH=inpStream.readUTF();
-        ngayTao=inpStream.readUTF();
-        hinhThucTT=inpStream.readUTF();
-        tongTien=inpStream.readDouble();
-
-        inpStream.close();
-    }
-    
-
 
 }

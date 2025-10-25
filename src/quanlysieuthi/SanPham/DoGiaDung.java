@@ -1,13 +1,11 @@
 package quanlysieuthi.SanPham;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class DoGiaDung extends SanPham {
+public class DoGiaDung extends SanPham{
     private String chatLieu;
     private int baoHanh; // so thang
 
@@ -18,9 +16,9 @@ public class DoGiaDung extends SanPham {
 
     // Constructor co tham so
     public DoGiaDung(String maSP, String tenSP, int soLuong, double donGia,
-                     String xuatXu, String maLoaiSP, String nsx,
+                     String xuatXu, String nsx,
                      String chatLieu, int baoHanh) {
-        super(maSP, tenSP, soLuong, donGia, xuatXu, maLoaiSP, nsx);
+        super(maSP, tenSP, soLuong, donGia, xuatXu,"DGD", nsx);
         this.chatLieu = chatLieu;
         this.baoHanh = baoHanh;
     }
@@ -48,6 +46,7 @@ public class DoGiaDung extends SanPham {
         chatLieu = sc.nextLine();
         System.out.print("Nhap thoi gian bao hanh (thang): ");
         baoHanh = Integer.parseInt(sc.nextLine());
+        super.setMaLoaiSP("DGD");
     }
 
     // Ham xuat
@@ -65,13 +64,5 @@ public class DoGiaDung extends SanPham {
         outStream.writeInt(baoHanh);
         outStream.close();              
     }
-    @Override
-    public void docFile(String tenFile) throws IOException{
-        DataInputStream inStream = new DataInputStream(new FileInputStream(tenFile));
-        setMaLoaiSP(inStream.readUTF());
-        super.docThongTinChung(inStream);
-        chatLieu=inStream.readUTF();
-        baoHanh=inStream.readInt();
-        inStream.close();
-    }
+
 }

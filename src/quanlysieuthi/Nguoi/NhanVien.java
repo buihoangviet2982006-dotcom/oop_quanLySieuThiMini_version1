@@ -1,7 +1,9 @@
 package quanlysieuthi.Nguoi;
 import java.util.Scanner;
 
-public class NhanVien {
+import quanlysieuthi.interfaces.INhapXuat;
+
+public class NhanVien implements INhapXuat{
     private String maNV;
     private String ho;
     private String ten;

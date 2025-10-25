@@ -2,7 +2,9 @@ package quanlysieuthi.Nguoi;
 
 import java.util.Scanner;
 
-public class NhaCungCap {
+import quanlysieuthi.interfaces.INhapXuat;
+
+public class NhaCungCap implements INhapXuat{
     private String maNCC;
     private String ten;
     private String sdt;
@@ -55,7 +57,7 @@ public class NhaCungCap {
     }
 
     public void xuat() {
-        System.out.printf("| %-10s | %-20s | %-12s | %-30s |\n",
+        System.out.printf("| %-10s | %-20s | %-18s | %-30s |\n",
                           maNCC, ten, sdt, diaChi);
     }
 

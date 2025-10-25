@@ -3,10 +3,14 @@ package quanlysieuthi.danhsach;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import quanlysieuthi.Phieu.PhieuNhapHang;
+import quanlysieuthi.interfaces.IDanhSach;
+import quanlysieuthi.interfaces.INhapXuat;
 
-public class DSPhieuNhapHang {
+public class DSPhieuNhapHang implements IDanhSach<PhieuNhapHang>,INhapXuat{
     private PhieuNhapHang[] danhSachPNH;
 
     // constructor
@@ -34,7 +38,11 @@ public class DSPhieuNhapHang {
         }
         return null;
     }
-
+    public PhieuNhapHang tim() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Nhap ma phieu nhap hang can tim");
+        return timTheoMa(sc.nextLine());
+    }
     public void them() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Nhap so luong phieu nhap hang can them: ");
@@ -180,4 +188,38 @@ public class DSPhieuNhapHang {
         } catch (Exception e) {}
     }
 
+    public double[] ThongKeTongChiTheoQuy(int nam){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date;
+        double[] tongChi = new double[4];
+        for(int i=0;i<danhSachPNH.length;i++){
+            PhieuNhapHang pnh = danhSachPNH[i];
+            try{
+                date = LocalDate.parse(pnh.getNgayNhap(), df);
+            }catch(Exception e){
+                System.out.println("Loi ngay thang nam khong hop le.Phieu nhap hang "+pnh.getMaPNH());
+                return null;
+            }
+            if(date.getYear()!=nam){
+                continue;
+            }
+            switch (date.getMonthValue()) {
+                case 1:case 2:case 3:
+                    tongChi[0]+=pnh.getTongTien();
+                    break;
+                case 4:case 5:case 6:
+                    tongChi[1]+=pnh.getTongTien();
+                    break;
+                case 7:case 8:case 9:
+                    tongChi[2]+=pnh.getTongTien();
+                    break;
+                case 10:case 11:case 12:
+                    tongChi[3]+=pnh.getTongTien();
+                    break;                                                                            
+                default:
+                    break;
+            }
+        }
+        return tongChi;
+    }
 }

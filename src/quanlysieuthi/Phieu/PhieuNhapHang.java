@@ -1,13 +1,13 @@
 package quanlysieuthi.Phieu;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class PhieuNhapHang {
+import quanlysieuthi.interfaces.INhapXuat;
+
+public class PhieuNhapHang implements INhapXuat{
     private String maPNH;
     private String ngayNhap;
     private String maNCC;
@@ -112,15 +112,6 @@ public class PhieuNhapHang {
 
         outStream.close();
     }
-    public void docFile(String tenFile) throws IOException{
-        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
-        maPNH=inpStream.readUTF();
-        maNCC=inpStream.readUTF();
-        maNV=inpStream.readUTF();
-        ngayNhap=inpStream.readUTF();
-        tongTien=inpStream.readDouble();
 
-        inpStream.close();
-    }
 }
 
