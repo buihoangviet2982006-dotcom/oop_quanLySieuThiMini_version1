@@ -22,7 +22,12 @@ public class DSPhieuNhapHang implements IDanhSach<PhieuNhapHang>,INhapXuat{
     public int getSoLuong() {
         return danhSachPNH.length;
     }
-
+    public PhieuNhapHang[] getDanhSach(){
+        return danhSachPNH;
+    }
+    public void setDanhSach(PhieuNhapHang[] danhSachPNH){
+        this.danhSachPNH = danhSachPNH;
+    }
     public PhieuNhapHang getPhieuNhapHang(int i) {
         if (i >= 0 && i < danhSachPNH.length) {
             return danhSachPNH[i];

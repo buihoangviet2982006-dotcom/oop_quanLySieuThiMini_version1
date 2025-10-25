@@ -24,7 +24,12 @@ public class DSNV implements IDanhSach<NhanVien>,INhapXuat{
         }
         return null;
     }
-
+    public NhanVien[] getDanhSach(){
+        return danhSachNV;
+    }
+    public void setDanhSach(NhanVien[] danhSachNV){
+        this.danhSachNV = danhSachNV;
+    }
     public NhanVien timTheoMa(String maNV) {
         for (NhanVien nv : danhSachNV) {
             if (nv.getMaNV().equalsIgnoreCase(maNV)) {

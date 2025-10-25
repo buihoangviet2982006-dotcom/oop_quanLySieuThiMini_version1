@@ -19,9 +19,11 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
     public DSSP(){
         danhSachSP = new SanPham[0];
     }
+
     public DSSP(SanPham[] danhSachSP){
         this.danhSachSP = danhSachSP;
     }
+
     public DSSP(DSSP danhsach){
         danhSachSP = new SanPham[danhsach.getSoLuong()];
         for(int i=0;i<danhsach.getSoLuong();i++){
@@ -35,17 +37,25 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
         }
     }
 
-    public int getSoLuong(){return danhSachSP.length;}
+    public int getSoLuong(){
+        return danhSachSP.length;
+    }
+
     public SanPham getSanPham(int i){
         if(i>=0 && i<danhSachSP.length){
             return danhSachSP[i];
         }
         return null;
     }
-    public SanPham[] getDanhSach(){return danhSachSP;}
+
+    public SanPham[] getDanhSach(){
+        return danhSachSP;
+    }
+
     public void setDanhSach(SanPham[] danhSachSP){
         this.danhSachSP = danhSachSP; 
     }
+
     public void nhap(){
         if(danhSachSP.length==0){
             Scanner sc = new Scanner(System.in);
@@ -70,6 +80,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
             them();
         }
     }
+
     public void xuat(){
         if(danhSachSP.length == 0){
             System.out.println("Danh sach trong !");
@@ -122,6 +133,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
             }
         }
     }
+
     public void xoaTheoTenSP(String tenSanPham){
         for(int i=0;i < danhSachSP.length;i++){
             if(tenSanPham.equalsIgnoreCase(danhSachSP[i].getTenSP())){
@@ -133,7 +145,6 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
             }
         }
     }
-
 
     public void them(SanPham sanPham){
         danhSachSP = Arrays.copyOf(danhSachSP, danhSachSP.length + 1);
@@ -168,6 +179,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
             }
         }
     }
+
     public void suaTheoMaSP(){
         Scanner sc = new Scanner(System.in);
         int chon=0;
@@ -205,6 +217,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
             }
         }
     }
+
     public void suaTheoTenSP(){
         Scanner sc = new Scanner(System.in);
         int chon=0;
@@ -261,7 +274,6 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
         }
     }
 
-
     public SanPham timTheoMaSP(String maSP){
         for(int i=0;i<danhSachSP.length;i++){
             if(maSP.equalsIgnoreCase(danhSachSP[i].getMaSP())){
@@ -270,6 +282,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
         }
         return null;
     }
+
     public SanPham timTheoTenSP(String tenSP){
         for(int i=0;i<danhSachSP.length;i++){
             if(tenSP.equalsIgnoreCase(danhSachSP[i].getTenSP())){
@@ -278,6 +291,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
         }
         return null;
     }
+
     public SanPham tim(){
         Scanner sc = new Scanner(System.in);
         int chon=0;
@@ -329,6 +343,7 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
             }
         } catch (EOFException e) {}
     }
+    
     public void updateSoLuong(String maSP,int soLuong){
         for(int i=0;i<danhSachSP.length;i++){
             if(maSP.equalsIgnoreCase(danhSachSP[i].getMaSP())){

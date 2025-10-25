@@ -22,6 +22,9 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         return danhSachCTHD.length;
     }
 
+    public ChiTietHoaDon[] getDanhSach(){return danhSachCTHD;}
+    public void setDanhSach(ChiTietHoaDon[] danhSachCTHD){this.danhSachCTHD=danhSachCTHD;}
+
     public ChiTietHoaDon getChiTietHD(int i) {
         if (i >= 0 && i < danhSachCTHD.length) {
             return danhSachCTHD[i];
@@ -39,9 +42,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         return tongTien;
     }
 
-    // --- SỬA LẠI LOGIC TÌM KIẾM ---
 
-    // Hàm tìm kiếm nội bộ chính xác (theo composite key)
     public ChiTietHoaDon timChiTiet(String maHD, String maSP) {
         for (int i = 0; i < danhSachCTHD.length; i++) {
             if (danhSachCTHD[i].getMaHD().equalsIgnoreCase(maHD) && 
@@ -52,7 +53,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         return null;
     }
 
-    // Hàm tìm vị trí nội bộ chính xác
+
     public int timViTri(String maHD, String maSP) {
         for (int i = 0; i < danhSachCTHD.length; i++) {
             if (danhSachCTHD[i].getMaHD().equalsIgnoreCase(maHD) && 
@@ -63,7 +64,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         return -1;
     }
 
-    // Hàm tim() của Interface (sửa lại để tìm chính xác)
+
     public ChiTietHoaDon tim() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Nhap ma hoa don (MaHD) can tim: ");
@@ -74,7 +75,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
     }
 
 
-    // --- SỬA LẠI LOGIC NHẬP / THÊM (Bỏ kiểm tra trùng MaHD) ---
+
 
     public void nhap() {
         Scanner sc = new Scanner(System.in);
@@ -85,7 +86,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
             System.out.println("\nNhap chi tiet hoa don thu " + (i + 1) + ":");
             danhSachCTHD[i] = new ChiTietHoaDon();
             danhSachCTHD[i].nhap();
-            // Không kiểm tra trùng MaHD ở đây
+
         }
     }
 
@@ -99,7 +100,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
             ChiTietHoaDon cthd = new ChiTietHoaDon();
             cthd.nhap();
 
-            // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaHD (vì nó sai)
+
 
             ChiTietHoaDon[] newArr = new ChiTietHoaDon[danhSachCTHD.length + 1];
             for (int j = 0; j < danhSachCTHD.length; j++) {
@@ -111,7 +112,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         System.out.println("Them thanh cong");
     }
 
-    // Hàm them(object) này vốn đã đúng (không kiểm tra trùng)
+
     public void them(ChiTietHoaDon cthd) {
         ChiTietHoaDon[] newArr = new ChiTietHoaDon[danhSachCTHD.length + 1];
         for (int i = 0; i < danhSachCTHD.length; i++) {
@@ -132,7 +133,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         }
     }
 
-    // --- SỬA LẠI LOGIC SỬA / XÓA (để tìm chính xác) ---
+
 
     public void sua() {
         Scanner sc = new Scanner(System.in);
@@ -151,7 +152,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
             return;
         }
         System.out.println("Nhap lai thong tin cho chi tiet hoa don nay:");
-        // Chỉ cho phép sửa số lượng, đơn giá (MaHD và MaSP là khóa, không nên sửa)
+
         System.out.print("Nhap so luong moi: ");
         cthd.setSoLuong(Integer.parseInt(sc.nextLine()));
         System.out.print("Nhap don gia moi: ");
@@ -187,7 +188,7 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         System.out.println("Da xoa chi tiet");
     }
 
-    // Sửa lại hàm này để tìm chính xác
+
     public void timChiTietHD() {
         Scanner sc = new Scanner(System.in);
         if (danhSachCTHD.length == 0) {

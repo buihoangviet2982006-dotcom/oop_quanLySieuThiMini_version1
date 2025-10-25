@@ -17,7 +17,12 @@ public class DSKH implements IDanhSach<KhachHang>,INhapXuat{
     public int getSoLuong() {
         return danhSachKH.length;
     }
-
+    public KhachHang[] getDanhSach(){
+        return danhSachKH;
+    }
+    public void setDanhSach(KhachHang[] danhSachKH){
+        this.danhSachKH = danhSachKH;
+    }
     public KhachHang getKhachHang(int i) {
         if (i >= 0 && i < danhSachKH.length) {
             return danhSachKH[i];

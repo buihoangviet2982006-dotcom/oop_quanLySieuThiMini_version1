@@ -23,7 +23,12 @@ public class DSHoaDon implements IDanhSach<HoaDon>,INhapXuat{
     public int getSoLuong() {
         return danhSachHD.length;
     }
-
+    public HoaDon[] getDanhSach(){
+        return danhSachHD;
+    }
+    public void setDanhSach(HoaDon[] danhSachHD){
+        this.danhSachHD = danhSachHD;
+    }
     public HoaDon getHoaDon(int i) {
         if (i >= 0 && i < danhSachHD.length) {
             return danhSachHD[i];

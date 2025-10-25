@@ -21,6 +21,9 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         return danhSachCTPNH.length;
     }
 
+    public ChiTietPhieuNhap[] getDanhSach(){return danhSachCTPNH;}
+    public void setDanhSach(ChiTietPhieuNhap[] danhSachCTPNH){this.danhSachCTPNH=danhSachCTPNH;}
+
     public ChiTietPhieuNhap danhSachCTPNH(int i) {
         if (i >= 0 && i < danhSachCTPNH.length) {
             return danhSachCTPNH[i];
@@ -38,9 +41,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         return tongTien;
     }
 
-    // --- SỬA LẠI LOGIC TÌM KIẾM ---
-    
-    // Hàm tìm kiếm nội bộ chính xác (theo composite key)
+
     public ChiTietPhieuNhap timChiTiet(String maPNH, String maSP) {
         for (int i = 0; i < danhSachCTPNH.length; i++) {
             if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH) && 
@@ -51,7 +52,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         return null;
     }
 
-    // Hàm tìm vị trí nội bộ chính xác
+
     public int timViTri(String maPNH, String maSP) {
         for (int i = 0; i < danhSachCTPNH.length; i++) {
             if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH) && 
@@ -62,7 +63,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         return -1;
     }
 
-    // Hàm tim() của Interface (sửa lại để tìm chính xác)
+
     public ChiTietPhieuNhap tim() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Nhap ma phieu nhap (MaPNH) can tim: ");
@@ -72,7 +73,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         return timChiTiet(maPNH, maSP);
     }
 
-    // --- SỬA LẠI LOGIC NHẬP / THÊM (Bỏ kiểm tra trùng MaPNH) ---
+
 
     public void them() {
         Scanner sc = new Scanner(System.in);
@@ -84,7 +85,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
             ChiTietPhieuNhap ctpn = new ChiTietPhieuNhap();
             ctpn.nhap();
 
-            // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaPNH (vì nó sai)
+
 
             ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
             for (int j = 0; j < danhSachCTPNH.length; j++) {
@@ -96,9 +97,9 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         System.out.println("Them thanh cong!");
     }
 
-    // Sửa lại hàm them(object) để bỏ kiểm tra trùng lặp sai
+
     public void them(ChiTietPhieuNhap ctpn) {
-        // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaPNH (vì nó sai)
+
         
         ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
         for (int i = 0; i < danhSachCTPNH.length; i++) {
@@ -118,7 +119,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
             ChiTietPhieuNhap ctpn = new ChiTietPhieuNhap();
             ctpn.nhap();
 
-            // ĐÃ XÓA LOGIC KIỂM TRA TRÙNG MaPNH (vì nó sai)
+
 
             ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
             for (int j = 0; j < danhSachCTPNH.length; j++) {
@@ -141,7 +142,7 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         }
     }
 
-    // --- SỬA LẠI LOGIC SỬA / XÓA (để tìm chính xác) ---
+
 
     public void sua() {
         Scanner sc = new Scanner(System.in);

@@ -96,8 +96,8 @@ public class ChiTietHoaDon implements INhapXuat{
         System.out.println("Ma HD: " + maHD);
         System.out.println("Ma SP: " + maSP);
         System.out.println("So luong: " + soLuong);
-        System.out.println("Don gia: " + donGia);
-        System.out.println("Thanh tien: " + thanhTien);
+        System.out.println("Don gia: " + String.format("%,.0f VND", donGia));
+        System.out.println("Thanh tien: " + String.format("%,.0f VND", thanhTien));
     }
 
     public void ghiFile(String tenFile) throws IOException{

@@ -32,6 +32,7 @@ public class QLST {
     private DSNhaCungCap dsNCC;
     private DSKH dsKH;
     private DSNV dsNV;
+    
     public QLST(){
         dsSP = new DSSP();
         dsCTHD = new DSChiTietHD();
@@ -42,6 +43,7 @@ public class QLST {
         dsKH = new DSKH();
         dsNV = new DSNV();
     }
+
     public QLST(DSSP dsSP,DSChiTietHD dsCTHD,DSHoaDon dsHD,DSChiTietPNH dsCTPNH,DSPhieuNhapHang dsPNH,DSNhaCungCap dsNCC,DSKH dsKH,DSNV dsNV){
         this.dsCTHD = dsCTHD;
         this.dsHD = dsHD;
@@ -52,6 +54,7 @@ public class QLST {
         this.dsKH = dsKH;
         this.dsNV = dsNV;
     }
+
     public void QLSP(){
         Scanner sc = new Scanner(System.in);
         int chon = 0;
@@ -99,6 +102,7 @@ public class QLST {
                     }else{
                         System.out.println("khong tim thay san pham ");
                     }
+                    break;
                 case 7:
                     try {
                         dsSP.ghiFile(DuongDan.SANPHAM_FILE_PATH);
@@ -207,7 +211,7 @@ public class QLST {
             chon = Integer.parseInt(sc.nextLine());
 
             switch (chon) {
-                case 1: 
+                case 1:
                     System.out.println("Nhap so luong chi tiet hoa don can nhap");
                     n = Integer.parseInt(sc.nextLine());
                     for(int i=0;i < n;i++){
@@ -264,12 +268,100 @@ public class QLST {
                 case 3:
                     dsCTHD.xuat();
                     break;
-                case 4:
-                    dsCTHD.sua();
+                case 4: { // Sua chi tiet hoa don
+                    System.out.print("Nhap ma HD can sua: ");
+                    String maHD_sua = sc.nextLine();
+                    System.out.print("Nhap ma SP can sua: ");
+                    String maSP_sua = sc.nextLine();
+
+                    ChiTietHoaDon cthd = dsCTHD.timChiTiet(maHD_sua, maSP_sua);
+                    if (cthd == null) {
+                        System.out.println("Loi: Khong tim thay chi tiet voi MaHD = " + maHD_sua + " va MaSP = " + maSP_sua);
+                        break;
+                    }
+
+                    SanPham sp_sua = dsSP.timTheoMaSP(maSP_sua);
+                    if (sp_sua == null) {
+                        System.out.println("Loi: Khong tim thay san pham " + maSP_sua + " trong kho (Du lieu khong dong bo).");
+                        break;
+                    }
+
+                    int oldQuantity = cthd.getSoLuong();
+                    int currentStock = sp_sua.getSoLuong();
+                    int newQuantity;
+
+                    while (true) {
+                        try {
+                            System.out.print("Nhap so luong moi (so luong cu: " + oldQuantity + "): ");
+                            newQuantity = Integer.parseInt(sc.nextLine());
+                            if (newQuantity < 0) {
+                                System.out.println("So luong khong duoc am.");
+                                continue;
+                            }
+                            
+                            int stockDifference = oldQuantity - newQuantity;
+                            int newStock = currentStock + stockDifference;
+
+                            if (newStock < 0) {
+                                System.out.println("Loi: So luong ton kho khong du. Ton kho hien tai: " + currentStock + ".Can lay them" + (-stockDifference) + ".");
+                            } else {
+                                System.out.print("Nhap don gia moi (gia cu: " + cthd.getDonGia() + "): ");
+                                double newDonGia = Double.parseDouble(sc.nextLine());
+
+                                cthd.setSoLuong(newQuantity);
+                                cthd.setDonGia(newDonGia);
+                                dsSP.updateSoLuong(maSP_sua, newStock);
+
+                                System.out.println("==> Sua thanh cong! Ton kho moi cua SP " + maSP_sua + ": " + newStock);
+                                break;
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Vui long nhap mot so hop le.");
+                        }
+                    }
                     break;
-                case 5:
-                    dsCTHD.xoa();
+                }
+                case 5: { // Xoa chi tiet hoa don
+                    System.out.print("Nhap ma HD can xoa: ");
+                    String maHD_xoa = sc.nextLine();
+                    System.out.print("Nhap ma SP can xoa: ");
+                    String maSP_xoa = sc.nextLine();
+
+                    int viTri = dsCTHD.timViTri(maHD_xoa, maSP_xoa);
+                    
+                    if (viTri == -1) {
+                        System.out.println("Loi: Khong tim thay chi tiet voi MaHD = " + maHD_xoa + " va MaSP = " + maSP_xoa);
+                        break;
+                    }
+
+                    ChiTietHoaDon cthd_xoa = dsCTHD.getChiTietHD(viTri);
+                    SanPham sp_xoa = dsSP.timTheoMaSP(maSP_xoa);
+
+                    if (sp_xoa == null) {
+                        System.out.println("Loi: Khong tim thay san pham " + maSP_xoa + " trong kho (Du lieu khong dong bo).");
+                        break;
+                    }
+
+                    int deletedQuantity = cthd_xoa.getSoLuong();
+                    int currentStock = sp_xoa.getSoLuong();
+                    int newStock = currentStock + deletedQuantity; // Hoan tra hang ve kho
+
+                    // Tien hanh xoa khoi mang
+                    ChiTietHoaDon[] oldArr = dsCTHD.getDanhSach();
+                    ChiTietHoaDon[] newArr = new ChiTietHoaDon[oldArr.length - 1];
+                    for (int i = 0, j = 0; i < oldArr.length; i++) {
+                        if (i != viTri) {
+                            newArr[j++] = oldArr[i];
+                        }
+                    }
+                    dsCTHD.setDanhSach(newArr);
+                    
+                    // Cap nhat kho sau khi xoa thanh cong
+                    dsSP.updateSoLuong(maSP_xoa, newStock);
+
+                    System.out.println("==> Xoa thanh cong! Da hoan tra " + deletedQuantity + " SP " + maSP_xoa + " ve kho. Ton kho moi: " + newStock);
                     break;
+                }
                 case 6:
                     ChiTietHoaDon cthd = dsCTHD.tim();
                     if (cthd != null) {
@@ -433,13 +525,106 @@ public class QLST {
                 case 3:
                     dsCTPNH.xuat();
                     break;
-                case 4:
-                    dsCTPNH.sua();
+                case 4: { 
+                    System.out.print("Nhap ma PNH can sua: ");
+                    String maPNH_sua = sc.nextLine();
+                    System.out.print("Nhap ma SP can sua: ");
+                    String maSP_sua = sc.nextLine();
+
+                    ChiTietPhieuNhap ctpn = dsCTPNH.timChiTiet(maPNH_sua, maSP_sua);
+                    if (ctpn == null) {
+                        System.out.println("Loi: Khong tim thay chi tiet voi MaPNH = " + maPNH_sua + " va MaSP = " + maSP_sua);
+                        break;
+                    }
+
+                    SanPham sp_sua = dsSP.timTheoMaSP(maSP_sua);
+                    if (sp_sua == null) {
+                        System.out.println("Loi: Khong tim thay san pham " + maSP_sua + " trong kho (Du lieu khong dong bo).");
+                        break;
+                    }
+
+                    int oldQuantity = ctpn.getSoLuong();
+                    int currentStock = sp_sua.getSoLuong();
+                    int newQuantity;
+
+                    while (true) {
+                        try {
+                            System.out.print("Nhap so luong moi (so luong cu: " + oldQuantity + "): ");
+                            newQuantity = Integer.parseInt(sc.nextLine());
+                            if (newQuantity < 0) {
+                                System.out.println("So luong khong duoc am.");
+                                continue;
+                            }
+                            
+                            int stockDifference = newQuantity - oldQuantity;
+                            int newStock = currentStock + stockDifference;
+
+                            if (newStock < 0) {
+                                System.out.println("Loi: So luong ton kho se bi am (" + newStock + "). Khong the sua.");
+                            } else {
+                                System.out.print("Nhap don gia moi (gia cu: " + ctpn.getDonGia() + "): ");
+                                double newDonGia = Double.parseDouble(sc.nextLine());
+
+                                ctpn.setSoLuong(newQuantity);
+                                ctpn.setDonGia(newDonGia);
+                                dsSP.updateSoLuong(maSP_sua, newStock);
+
+                                System.out.println("==> Sua thanh cong! Ton kho moi cua SP " + maSP_sua + ": " + newStock);
+                                break;
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Vui long nhap mot so hop le.");
+                        }
+                    }
                     break;
-                case 5:
-                    dsCTPNH.xoa();
+                }
+                case 5: { // Xoa chi tiet phieu nhap
+                    System.out.print("Nhap ma PNH can xoa: ");
+                    String maPNH_xoa = sc.nextLine();
+                    System.out.print("Nhap ma SP can xoa: ");
+                    String maSP_xoa = sc.nextLine();
+
+                    int viTri = dsCTPNH.timViTri(maPNH_xoa, maSP_xoa);
+                    
+                    if (viTri == -1) {
+                        System.out.println("Loi: Khong tim thay chi tiet voi MaPNH = " + maPNH_xoa + " va MaSP = " + maSP_xoa);
+                        break;
+                    }
+
+                    ChiTietPhieuNhap ctpn_xoa = dsCTPNH.danhSachCTPNH(viTri); // Using the correct getter
+                    SanPham sp_xoa = dsSP.timTheoMaSP(maSP_xoa);
+
+                    if (sp_xoa == null) {
+                        System.out.println("Loi: Khong tim thay san pham " + maSP_xoa + " trong kho (Du lieu khong dong bo).");
+                        break;
+                    }
+
+                    int deletedQuantity = ctpn_xoa.getSoLuong();
+                    int currentStock = sp_xoa.getSoLuong();
+                    int newStock = currentStock - deletedQuantity; // Rut hang khoi kho
+
+                    if (newStock < 0) {
+                        System.out.println("Loi: Khong a xoa. Ton kho se bi am (" + newStock + ").");
+                        break;
+                    }
+
+                    // Tien hanh xoa khoi mang
+                    ChiTietPhieuNhap[] oldArr = dsCTPNH.getDanhSach();
+                    ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[oldArr.length - 1];
+                    for (int i = 0, j = 0; i < oldArr.length; i++) {
+                        if (i != viTri) {
+                            newArr[j++] = oldArr[i];
+                        }
+                    }
+                    dsCTPNH.setDanhSach(newArr);
+                    
+                    // Cap nhat kho sau khi xoa thanh cong
+                    dsSP.updateSoLuong(maSP_xoa, newStock);
+
+                    System.out.println("==> Xoa thanh cong! Da rut " + deletedQuantity + " SP " + maSP_xoa + " khoi kho. Ton kho moi: " + newStock);
                     break;
-                case 6:
+                }
+                case 6: // Gọi hàm tim()
                     ChiTietPhieuNhap ctpn = dsCTPNH.tim();
                      if (ctpn != null) {
                         System.out.println("Thong tin chi tiet phieu nhap:");
@@ -470,7 +655,7 @@ public class QLST {
                 default:
                     System.out.println("Lua chon khong hop le");
             }
-        } while (chon != 9);
+        } while (chon != 9); // Cập nhật điều kiện thoát
     }
 
     public void QLNCC(){
@@ -713,7 +898,7 @@ public class QLST {
         System.out.println("1.Tim san pham theo ma");
         System.out.println("2.Tim san pham theo ten");
         chonTim = Integer.parseInt(sc.nextLine());
-        while (chonTim!=1 || chonTim!=2) {
+        while (chonTim!=1 && chonTim!=2) {
             System.out.println("Lua chon khong hop le. Vui long chon 1 (Ma) hoac 2 (Ten).");
             chonTim = Integer.parseInt(sc.nextLine());
         }
@@ -729,19 +914,23 @@ public class QLST {
                 if(maSP.equals("0")) break;            
 
                 sp = dsSP.timTheoMaSP(maSP);
-
+                if(sp==null){
+                    System.out.println("Khong tim thay san pham!!");
+                    continue;
+                }
             }else {
                 System.out.print("Ten SP:");
                 String tenSP = sc.nextLine();
                 if(tenSP.equals("0")) break;    
 
                 sp = dsSP.timTheoTenSP(tenSP);
+                if(sp==null){
+                    System.out.println("Khong tim thay san pham!!");
+                    continue;
+                }                
                 maSP = sp.getMaSP();
             }
-            if(sp==null){
-                System.out.println("Khong tim thay san pham!!");
-                continue;
-            }
+
             do{
                 System.out.print("So luong: ");
                 soLuong = Integer.parseInt(sc.nextLine());
@@ -783,7 +972,7 @@ public class QLST {
         System.out.println("1.Tim san pham theo ma");
         System.out.println("2.Tim san pham theo ten");
         chonTim = Integer.parseInt(sc.nextLine());
-        while (chonTim!=1 || chonTim!=2) {
+        while (chonTim!=1 && chonTim!=2) {
             System.out.println("Lua chon khong hop le. Vui long chon 1 (Ma) hoac 2 (Ten).");
             chonTim = Integer.parseInt(sc.nextLine());
         }
@@ -799,19 +988,23 @@ public class QLST {
                 if(maSP.equals("0")) break;            
 
                 sp = dsSP.timTheoMaSP(maSP);
-
+                if(sp==null){
+                    System.out.println("Khong tim thay san pham!!");
+                    continue;
+                }
             }else {
                 System.out.print("Ten SP:");
                 String tenSP = sc.nextLine();
                 if(tenSP.equals("0")) break;    
 
                 sp = dsSP.timTheoTenSP(tenSP);
+                if(sp==null){
+                    System.out.println("Khong tim thay san pham!!");
+                    continue;
+                }                
                 maSP = sp.getMaSP();
             }
-            if(sp==null){
-                System.out.println("Khong tim thay san pham!!");
-                continue;
-            }
+
             do{
                 System.out.print("So luong: ");
                 soLuong = Integer.parseInt(sc.nextLine());
