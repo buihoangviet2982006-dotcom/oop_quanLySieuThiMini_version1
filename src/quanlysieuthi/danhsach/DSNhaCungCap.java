@@ -15,7 +15,12 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
     public DSNhaCungCap(NhaCungCap[] danhSachNCC){
         this.danhSachNCC = danhSachNCC;
     }
-
+    public DSNhaCungCap(DSNhaCungCap danhSachNCC){
+        this.danhSachNCC = new NhaCungCap[danhSachNCC.getSoLuong()];
+        for(int i=0;i < danhSachNCC.getSoLuong();i++){
+            this.danhSachNCC[i] = new NhaCungCap(danhSachNCC.getNhaCungCap(i));
+        }
+    }
     public int getSoLuong(){return danhSachNCC.length;}
     public NhaCungCap getNhaCungCap(int i){
         if(i<0 || i>=danhSachNCC.length) return null;
@@ -36,8 +41,13 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
             n = Integer.parseInt(sc.nextLine());
             danhSachNCC = new NhaCungCap[n];
             for(int i=0;i<n;i++){
-                danhSachNCC[i] = new NhaCungCap();
-                danhSachNCC[i].nhap();
+                NhaCungCap ncc = new NhaCungCap();
+                ncc.nhap();
+                while(tim(ncc.getMaNCC())!=null){
+                    System.out.println("Ma nha cung cap da ton tai!Vui long nhap lai");
+                    ncc.setMaNCC(sc.nextLine());
+                }
+                danhSachNCC[i]=ncc;
             }
         }else{
             them();
@@ -48,9 +58,9 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
             System.out.println("Danh sach trong!");
             return;
         }
-        System.out.printf("| %-10s | %-20s | %-18s | %-30s |\n" , "Ma NCC","Ten NCC","So dien thoai","Dia chi");
+        System.out.printf("| %-10s | %-20s | %-18s | %-60s |\n" , "Ma NCC","Ten NCC","So dien thoai","Dia chi");
         for(int i=0;i<danhSachNCC.length;i++){
-            System.out.println("-------------------------------------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------");
             danhSachNCC[i].xuat();
         }
     }
@@ -61,12 +71,21 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
         n = Integer.parseInt(sc.nextLine());
         danhSachNCC = Arrays.copyOf(danhSachNCC, danhSachNCC.length + n);
         for(int i=danhSachNCC.length - n;i < danhSachNCC.length;i++){
-            danhSachNCC[i] = new NhaCungCap();
-            danhSachNCC[i].nhap();
+            NhaCungCap ncc = new NhaCungCap();
+            ncc.nhap();
+            while(tim(ncc.getMaNCC())!=null){
+                System.out.println("Ma nha cung cap da ton tai!Vui long nhap lai");
+                ncc.setMaNCC(sc.nextLine());
+            }
+            danhSachNCC[i]=ncc;
         }
         
     }
     public void them(NhaCungCap nhaCungCap){
+        if(tim(nhaCungCap.getMaNCC())!=null){
+            System.out.println("Ma nha cung cap da ton tai");
+            return;
+        }
         danhSachNCC = Arrays.copyOf(danhSachNCC,danhSachNCC.length+1);
         danhSachNCC[danhSachNCC.length - 1] = nhaCungCap;
     }
@@ -74,37 +93,46 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
     public void xoa(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Nhap ma nha cung cap muon xoa");
-        String maNCC = sc.nextLine();
-        for(int i=0;i<danhSachNCC.length;i++){
-            if(maNCC.equalsIgnoreCase(danhSachNCC[i].getMaNCC())){
-                for(int j=i;j < danhSachNCC.length -1; j++){
-                    danhSachNCC[j] = danhSachNCC[j+1];
-                }
-                danhSachNCC = Arrays.copyOf(danhSachNCC, danhSachNCC.length - 1);
-                break;
-            }
-        }
+        xoa(sc.nextLine());
     }
+    
     public void xoa(String maNCC){
+        int vt = -1;
         for(int i=0;i<danhSachNCC.length;i++){
             if(maNCC.equalsIgnoreCase(danhSachNCC[i].getMaNCC())){
-                for(int j=i;j < danhSachNCC.length -1; j++){
-                    danhSachNCC[j] = danhSachNCC[j+1];
-                }
-                danhSachNCC = Arrays.copyOf(danhSachNCC, danhSachNCC.length - 1);
-                break;
+                vt=i;
             }
-        }        
+        }  
+        
+        if(vt==-1){
+            System.out.println("Khong tim thay ma nha cung cap!");
+            return;
+        }
+
+        for(int j=vt;j < danhSachNCC.length -1; j++){
+                    danhSachNCC[j] = danhSachNCC[j+1];
+        }
+        danhSachNCC = Arrays.copyOf(danhSachNCC, danhSachNCC.length - 1);    
+        System.out.println("Xoa thanh cong!");            
     }
 
     public void sua(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Nhap ma nha cung cap muon sua");
         String maNCC = sc.nextLine();     
+        if(tim(maNCC)==null){
+            System.out.println("khong tim thay nha cung cap");
+            return;
+        }
         for(int i = 0;i < danhSachNCC.length;i++){
             if(maNCC.equalsIgnoreCase(danhSachNCC[i].getMaNCC())){
-                danhSachNCC[i].nhap();
-                break;
+                NhaCungCap ncc = new NhaCungCap() ;
+                ncc.nhap();
+                while(tim(ncc.getMaNCC())!=null&&maNCC.equalsIgnoreCase(ncc.getMaNCC())==false){
+                    System.out.println("Ma nha cung cap da ton tai!Vui long nhap lai");
+                    ncc.setMaNCC(sc.nextLine());
+                }
+                sua(maNCC, ncc);
             }
         }   
     }
@@ -112,9 +140,10 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
         for(int i = 0;i < danhSachNCC.length;i++){
             if(maNCC.equalsIgnoreCase(danhSachNCC[i].getMaNCC())){
                 danhSachNCC[i] = nhaCungCap;
-                break;
+                return;
             }
-        }   
+        }
+        System.out.println("khong tim thay nha cung cap");
     }
 
     public NhaCungCap tim(){
@@ -130,10 +159,29 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
     }
     public NhaCungCap tim(String maNCC){
         for(int i = 0;i < danhSachNCC.length;i++){
-            if(maNCC.equalsIgnoreCase(danhSachNCC[i].getMaNCC())){
+            if(danhSachNCC[i]!=null&&maNCC.equalsIgnoreCase(danhSachNCC[i].getMaNCC())){
                 return danhSachNCC[i];
             }
         }  
         return null;          
+    }
+
+    public DSNhaCungCap thongKeTheoDiaChi(String diachi){
+        DSNhaCungCap dsncc = new DSNhaCungCap();
+        for(int i=0;i<danhSachNCC.length;i++){     
+
+            String diaChiNCC = danhSachNCC[i].getDiaChi();        
+
+            if(diaChiNCC != null && diaChiNCC.toLowerCase().contains(diachi.toLowerCase())){
+                dsncc.them(new NhaCungCap(danhSachNCC[i]));
+            }
+        }
+        if(dsncc.getSoLuong()==0)return null;
+        return dsncc;
+    }
+
+    public int thongKeSoLuongNhaCungCap(){
+        System.out.println("So nha cung cap hien co la : " + danhSachNCC.length);
+        return danhSachNCC.length;
     }
 }

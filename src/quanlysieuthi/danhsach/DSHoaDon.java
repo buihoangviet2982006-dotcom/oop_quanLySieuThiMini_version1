@@ -1,7 +1,9 @@
 package quanlysieuthi.danhsach;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -177,11 +179,19 @@ public class DSHoaDon implements IDanhSach<HoaDon>,INhapXuat{
     }
 
     public void ghiFile(String tenFile) throws IOException{
+        // xoa du lieu tu file cu
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();  
         for(int i=0;i<danhSachHD.length;i++){
             danhSachHD[i].ghiFile(tenFile);
         }
+        System.out.println("Ghi file thanh cong");
     }
     public void docFile(String tenFile) throws IOException{
+        if(danhSachHD.length!=0){
+            System.out.println("Loi!! danh sach dang chua du lieu.");
+            return;
+        }
         DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
         try {
             while (true) {
@@ -189,6 +199,10 @@ public class DSHoaDon implements IDanhSach<HoaDon>,INhapXuat{
                                         inpStream.readUTF(),inpStream.readUTF(),inpStream.readDouble()));
             }
         } catch (Exception e) {}
+        finally{
+            inpStream.close();
+            System.out.println("Doc file thanh cong");
+        }
     }
     // thong ke
     public void ThongKeTheoKhoangNgay() {
@@ -396,5 +410,9 @@ public class DSHoaDon implements IDanhSach<HoaDon>,INhapXuat{
             }
         }
         return soLuongHD;  
+    }
+    public int thongKeSoLuong(){
+        System.out.println("So luong hoa don la : "+danhSachHD.length);
+        return danhSachHD.length;
     }
 }

@@ -162,4 +162,8 @@ public class DSKH implements IDanhSach<KhachHang>,INhapXuat{
         System.out.println("Nhap ma khach hang can tim");
         return timTheoMa(sc.nextLine());
     }
+    public int thongKeSoLuong(){
+        System.out.println("So luong khach hang la : "+danhSachKH.length);
+        return danhSachKH.length;
+    }
 }

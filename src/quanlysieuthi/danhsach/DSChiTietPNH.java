@@ -1,7 +1,9 @@
 package quanlysieuthi.danhsach;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import quanlysieuthi.Phieu.ChiTietPhieuNhap;
@@ -99,8 +101,6 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
 
 
     public void them(ChiTietPhieuNhap ctpn) {
-
-        
         ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length + 1];
         for (int i = 0; i < danhSachCTPNH.length; i++) {
             newArr[i] = danhSachCTPNH[i];
@@ -202,8 +202,16 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
         for(int i=0;i<danhSachCTPNH.length;i++){
             danhSachCTPNH[i].ghiFile(tenFile);
         }
+        System.out.println("Ghi file thanh cong");
     }
     public void docFile(String tenFile) throws IOException{
+        // xoa du lieu tu file cu
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();  
+        if(danhSachCTPNH.length!=0){
+            System.out.println("Loi!! danh sach dang chua du lieu.");
+            return;
+        }
         DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
         try {
             while (true) {
@@ -211,5 +219,13 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
                                         inpStream.readDouble()));
             }
         } catch (Exception e) {}
+        finally{
+            inpStream.close();
+            System.out.println("Doc file thanh cong");
+        }
+    }
+    public int thongKeSoLuong(){
+        System.out.println("So luong chi tiet phieu nhap hang la : "+danhSachCTPNH.length);
+        return danhSachCTPNH.length;
     }
 }

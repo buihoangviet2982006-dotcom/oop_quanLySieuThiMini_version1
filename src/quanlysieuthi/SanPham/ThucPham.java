@@ -16,9 +16,9 @@ public class ThucPham extends SanPham{
 
     // Constructor co tham so
     public ThucPham(String maSP, String tenSP, int soLuong, double donGia,
-                    String xuatXu, String nsx,
+                    String maHang, String nsx,
                     String hsd, String loaiBaoQuan) {
-        super(maSP, tenSP, soLuong, donGia, xuatXu, "TP", nsx);
+        super(maSP, tenSP, soLuong, donGia, maHang, "TP", nsx);
         this.hsd = hsd;
         this.loaiBaoQuan = loaiBaoQuan;
     }

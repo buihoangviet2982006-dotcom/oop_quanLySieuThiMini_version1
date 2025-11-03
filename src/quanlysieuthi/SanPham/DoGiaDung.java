@@ -16,9 +16,9 @@ public class DoGiaDung extends SanPham{
 
     // Constructor co tham so
     public DoGiaDung(String maSP, String tenSP, int soLuong, double donGia,
-                     String xuatXu, String nsx,
+                     String maHang, String nsx,
                      String chatLieu, int baoHanh) {
-        super(maSP, tenSP, soLuong, donGia, xuatXu,"DGD", nsx);
+        super(maSP, tenSP, soLuong, donGia, maHang,"DGD", nsx);
         this.chatLieu = chatLieu;
         this.baoHanh = baoHanh;
     }

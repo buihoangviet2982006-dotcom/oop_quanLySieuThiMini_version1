@@ -11,7 +11,7 @@ public abstract class SanPham implements INhapXuat {
     private String tenSP;
     private int soLuong;
     private double donGia;
-    private String xuatXu;
+    private String maHang; 
     private String maLoaiSP;
     private String nsx;
 
@@ -20,12 +20,12 @@ public abstract class SanPham implements INhapXuat {
 
     // Constructor co tham so
     public SanPham(String maSP, String tenSP, int soLuong, double donGia,
-                   String xuatXu, String maLoaiSP, String nsx) {
+                   String maHang, String maLoaiSP, String nsx) { 
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.soLuong = soLuong;
         this.donGia = donGia;
-        this.xuatXu = xuatXu;
+        this.maHang = maHang;
         this.maLoaiSP = maLoaiSP;
         this.nsx = nsx;
     }
@@ -36,7 +36,7 @@ public abstract class SanPham implements INhapXuat {
         this.tenSP = other.tenSP;
         this.soLuong = other.soLuong;
         this.donGia = other.donGia;
-        this.xuatXu = other.xuatXu;
+        this.maHang = other.maHang; 
         this.maLoaiSP = other.maLoaiSP;
         this.nsx = other.nsx;
     }
@@ -54,8 +54,8 @@ public abstract class SanPham implements INhapXuat {
     public double getDonGia() { return donGia; }
     public void setDonGia(double donGia) { this.donGia = donGia; }
 
-    public String getXuatXu() { return xuatXu; }
-    public void setXuatXu(String xuatXu) { this.xuatXu = xuatXu; }
+    public String getMaHang() { return maHang; }
+    public void setMaHang(String maHang) { this.maHang = maHang; }
 
     public String getMaLoaiSP() { return maLoaiSP; }
     public void setMaLoaiSP(String maLoaiSP) { this.maLoaiSP = maLoaiSP; }
@@ -66,6 +66,7 @@ public abstract class SanPham implements INhapXuat {
     // Ham nhap
     public void nhap() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("-----Nhap san pham-----");   
         System.out.print("Nhap ma san pham: ");
         maSP = sc.nextLine();
         System.out.print("Nhap ten san pham: ");
@@ -74,15 +75,15 @@ public abstract class SanPham implements INhapXuat {
         soLuong = Integer.parseInt(sc.nextLine());
         System.out.print("Nhap don gia: ");
         donGia = Double.parseDouble(sc.nextLine());
-        System.out.print("Nhap xuat xu: ");
-        xuatXu = sc.nextLine();
+        System.out.print("Nhap ma hang: "); 
+        maHang = sc.nextLine();
         System.out.print("Nhap ngay san xuat: ");
         nsx = sc.nextLine();
     }
 
     // Ham xuat thong tin san pham
     public void xuat() {
-        System.out.printf("| %-11s | %-15s | %-8d | %-15s | %-10s | %-16s | %-13s |",maSP,tenSP,soLuong,String.format("%,.0f VND",donGia),xuatXu,maLoaiSP,nsx);
+        System.out.printf("| %-11s | %-15s | %-8d | %-15s | %-10s | %-7s | %-13s |",maSP,tenSP,soLuong,String.format("%,.0f VND",donGia),maHang,maLoaiSP,nsx);
     }
 
     public abstract void ghiFile(String tenFile) throws IOException;
@@ -92,7 +93,7 @@ public abstract class SanPham implements INhapXuat {
         out.writeUTF(tenSP);
         out.writeInt(soLuong);
         out.writeDouble(donGia);
-        out.writeUTF(xuatXu);
+        out.writeUTF(maHang);
         out.writeUTF(nsx);
     }
 

@@ -46,6 +46,7 @@ public class NhaCungCap implements INhapXuat{
 
     public void nhap() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("-----Nhap nha cung------");
         System.out.print("Nhap ma NCC: ");
         maNCC = sc.nextLine();
         System.out.print("Nhap ten: ");
@@ -57,7 +58,7 @@ public class NhaCungCap implements INhapXuat{
     }
 
     public void xuat() {
-        System.out.printf("| %-10s | %-20s | %-18s | %-30s |\n",
+        System.out.printf("| %-10s | %-20s | %-18s | %-60s |\n",
                           maNCC, ten, sdt, diaChi);
     }
 

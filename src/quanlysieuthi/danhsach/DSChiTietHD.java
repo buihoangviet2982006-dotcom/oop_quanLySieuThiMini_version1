@@ -1,7 +1,9 @@
 package quanlysieuthi.danhsach;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -210,11 +212,19 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
     }
 
     public void ghiFile(String tenFile) throws IOException{
+        // xoa du lieu tu file cu
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();  
         for(int i=0;i<danhSachCTHD.length;i++){
             danhSachCTHD[i].ghiFile(tenFile);
         }
+        System.out.println("Ghi file thanh cong");
     }
     public void docFile(String tenFile) throws IOException{
+        if(danhSachCTHD.length!=0){
+            System.out.println("Loi!! danh sach dang chua du lieu.");
+            return;
+        }
         DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
         try {
             while (true) {
@@ -222,5 +232,13 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
                                         inpStream.readDouble()));
             }
         } catch (Exception e) {}
+        finally{
+            inpStream.close();
+            System.out.println("Doc file thanh cong");
+        }
+    }
+    public int thongKeSoLuong(){
+        System.out.println("So luong chi tiet hoa don la : "+danhSachCTHD.length);
+        return danhSachCTHD.length;
     }
 }

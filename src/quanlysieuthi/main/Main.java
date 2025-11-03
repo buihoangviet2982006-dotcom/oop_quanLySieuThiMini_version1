@@ -1,24 +1,21 @@
 package quanlysieuthi.main;
 
 import quanlysieuthi.SanPham.DoGiaDung;
+import quanlysieuthi.SanPham.LoaiSanPham;
 import quanlysieuthi.SanPham.SanPham;
 import quanlysieuthi.SanPham.ThucPham;
 import quanlysieuthi.danhsach.DSSP;
-import quanlysieuthi.hoadon.ChiTietHoaDon;
 import quanlysieuthi.hoadon.HoaDon;
+import quanlysieuthi.quanli.HeThong;
 import quanlysieuthi.quanli.QLST;
-import quanlysieuthi.tienich.DuongDan;
 import quanlysieuthi.danhsach.DSChiTietHD;
 import quanlysieuthi.danhsach.DSChiTietPNH;
 import quanlysieuthi.danhsach.DSHoaDon;
-import quanlysieuthi.danhsach.DSKH;
-import quanlysieuthi.danhsach.DSNV;
-import quanlysieuthi.danhsach.DSNhaCungCap;
+import quanlysieuthi.danhsach.DSLSP;
 import quanlysieuthi.danhsach.DSPhieuNhapHang;
 
 import java.io.IOException;
 
-import quanlysieuthi.Phieu.ChiTietPhieuNhap;
 import quanlysieuthi.Phieu.PhieuNhapHang;
 
 public class Main {
@@ -58,11 +55,12 @@ public class Main {
         // --- Dữ liệu rác (nằm ngoài khoảng test) ---
         dsHD.them(new HoaDon("HD998", "NV01", "KH99", "01/09/2025", "TM", 999)); // Q3 2025
         dsPNH.them(new PhieuNhapHang("PNH998", "NCC99", "NV01", "01/04/2026", 888)); // Q2 2026
+        
+        QLST.dsSP = ds;
+        QLST.dsHD = dsHD;
+        QLST.dsPNH = dsPNH;
+        HeThong.menuChinh();
 
-
-
-        QLST ql = new QLST(ds, new DSChiTietHD(), dsHD, new DSChiTietPNH(), dsPNH,new DSNhaCungCap(),new DSKH(),new DSNV());
-        ql.menu();
-
+        
     }
 }

@@ -13,6 +13,15 @@ public class DSNV implements IDanhSach<NhanVien>,INhapXuat{
     public DSNV() {
         danhSachNV = new NhanVien[0];
     }
+    public DSNV(NhanVien[] danhSachNV){
+        this.danhSachNV = danhSachNV;
+    }
+    public DSNV(DSNV danhSachNV){
+        this.danhSachNV = new NhanVien[danhSachNV.getSoLuong()];
+        for(int i=0;i<danhSachNV.getSoLuong();i++){
+            this.danhSachNV[i] = new NhanVien(danhSachNV.getNhanVien(i));
+        }
+    }
 
     public int getSoLuong() {
         return danhSachNV.length;
@@ -156,5 +165,9 @@ public class DSNV implements IDanhSach<NhanVien>,INhapXuat{
         Scanner sc = new Scanner(System.in);
         System.out.println("Nhap ma nhan vien can tim");
         return timTheoMa(sc.nextLine());
-    }    
+    }  
+    public int thongKeSoLuong(){
+        System.out.println("So luong nhan vien la : "+danhSachNV.length);
+        return danhSachNV.length;
+    }  
 }
