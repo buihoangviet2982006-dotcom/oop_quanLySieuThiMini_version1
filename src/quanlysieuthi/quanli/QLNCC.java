@@ -1,9 +1,11 @@
 package quanlysieuthi.quanli;
 
+import java.io.IOException; // THEM MOI
 import java.util.Scanner;
 
 import quanlysieuthi.Nguoi.NhaCungCap;
 import quanlysieuthi.danhsach.DSNhaCungCap;
+import quanlysieuthi.tienich.DuongDan; // THEM MOI
 
 public class QLNCC extends QLST{
     @Override
@@ -22,7 +24,9 @@ public class QLNCC extends QLST{
             System.out.println("6.Tim");
             System.out.println("7.Thong ke theo dia chi nha cung cap");
             System.out.println("8.Thong ke so luong nha cung cap");
-            System.out.println("7.Thoat");
+            System.out.println("9.Ghi FILE"); // THEM MOI
+            System.out.println("10.Doc FILE"); // THEM MOI
+            System.out.println("11.Thoat"); // THAY DOI SO
             System.out.println("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
             switch (chon) {
@@ -63,6 +67,22 @@ public class QLNCC extends QLST{
                 case 8:
                     dsNCC.thongKeSoLuongNhaCungCap();
                     break;
+                // --- THEM MOI ---
+                case 9:
+                    try {
+                        dsNCC.ghiFile(DuongDan.NHACUNGCAP_FILE_PATH);
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                    break;
+                case 10:
+                    try {
+                        dsNCC.docFile(DuongDan.NHACUNGCAP_FILE_PATH);
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    }
+                    break;
+                // --- KET THUC THEM MOI ---
                 default:
                     return;
             }

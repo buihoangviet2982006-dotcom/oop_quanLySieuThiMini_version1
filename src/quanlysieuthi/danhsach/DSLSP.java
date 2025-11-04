@@ -1,5 +1,10 @@
 package quanlysieuthi.danhsach;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -185,5 +190,74 @@ public class DSLSP implements IDanhSach<LoaiSanPham>, INhapXuat {
     public int thongKeSoLuong(){
         System.out.println("So luong loai san pham la : "+danhSachLSP.length);
         return danhSachLSP.length;
+    }
+
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();  
+        for(int i = 0; i < danhSachLSP.length; i++){
+            danhSachLSP[i].ghiFile(tenFile);
+        }
+        System.out.println("Ghi file thanh cong");
+    }
+
+    // --- THEM MOI ---
+    public void docFile(String tenFile) throws IOException {
+        if(danhSachLSP.length != 0){
+            System.out.println("Loi!! danh sach dang chua du lieu.");
+            return;
+        }
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        try {
+            while (true) {
+                them(new LoaiSanPham(inpStream.readUTF(), inpStream.readUTF(), inpStream.readUTF()));
+            }
+        } catch (Exception e) {}
+        finally{
+            inpStream.close();
+            System.out.println("Doc file thanh cong");
+        }
+    }
+
+
+    public void xoa(String ma) {
+        int vt = -1;
+        for (int i = 0; i < danhSachLSP.length; i++) {
+            if (danhSachLSP[i].getMaLoai().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+
+        if (vt == -1) {
+            System.out.println("Khong tim thay ma loai " + ma);
+            return;
+        }
+
+        LoaiSanPham[] newArr = new LoaiSanPham[danhSachLSP.length - 1];
+        for (int i = 0, j = 0; i < danhSachLSP.length; i++) {
+            if (i != vt) {
+                newArr[j++] = danhSachLSP[i];
+            }
+        }
+        danhSachLSP = newArr;
+        System.out.println("Da xoa loai san pham co ma = " + ma);
+    }
+
+    public void sua(String ma, LoaiSanPham lspMoi) {
+        int vt = -1;
+        for (int i = 0; i < danhSachLSP.length; i++) {
+            if (danhSachLSP[i].getMaLoai().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay ma loai " + ma);
+            return;
+        }
+        danhSachLSP[vt] = lspMoi;
+        System.out.println("Sua thong tin thanh cong!");
     }
 }

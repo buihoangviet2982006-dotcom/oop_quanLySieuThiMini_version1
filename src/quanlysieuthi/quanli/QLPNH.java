@@ -39,32 +39,50 @@ public class QLPNH extends QLST{
                 case 4:
                     dsPNH.sua();
                     break;
-                case 5:
-                    dsPNH.xoa();
+                case 5: {
+                    if (dsPNH.getSoLuong() == 0) {
+                        System.out.println("Danh sach phieu nhap hang rong!");
+                        break;
+                    }
+                    System.out.print("Nhap maPNH can xoa: ");
+                    String ma = sc.nextLine();
+                    
+                    // Kiem tra ton tai
+                    if (dsPNH.timTheoMa(ma) == null) { //
+                        System.out.println("Khong tim thay phieu co maPNH = " + ma);
+                        break;
+                    }
+
+                    int soLuongCTDaXoa = dsCTPNH.xoaTheoMaPNH(ma); //
+                    if (soLuongCTDaXoa > 0) {
+                        System.out.println("=> Da tu dong xoa " + soLuongCTDaXoa + " chi tiet phieu nhap lien quan.");
+                    }
+
+                    dsPNH.xoa(ma); 
                     break;
+                }
                 case 6:
                     dsPNH.thongKeSoLuong();
                     break;
                 case 7:
                     try {
                         dsPNH.ghiFile(DuongDan.PHIEUNHAP_FILE_PATH);
-                        break;
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
                 case 8:
                     try {
                         dsPNH.docFile(DuongDan.PHIEUNHAP_FILE_PATH);
-                        break;
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     } 
+                    break;
                 case 9:
                     System.out.println("Thoat danh sach phieu nhap hang");
-                    break;
+                    return;
                 default:
-                    System.out.println("Lua chon khong hop le");
+                    return;
             }
-        } while (chon != 8); 
+        } while (true); 
     }    
 }

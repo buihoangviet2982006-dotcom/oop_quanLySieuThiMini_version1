@@ -1,5 +1,6 @@
 package quanlysieuthi.quanli;
 
+import java.io.IOException; // THEM MOI
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -9,6 +10,7 @@ import quanlysieuthi.Phieu.PhieuNhapHang;
 import quanlysieuthi.SanPham.SanPham;
 import quanlysieuthi.danhsach.DSChiTietHD;
 import quanlysieuthi.danhsach.DSChiTietPNH;
+import quanlysieuthi.danhsach.DSHangSanXuat;
 import quanlysieuthi.danhsach.DSHoaDon;
 import quanlysieuthi.danhsach.DSKH;
 import quanlysieuthi.danhsach.DSLSP;
@@ -18,9 +20,10 @@ import quanlysieuthi.danhsach.DSPhieuNhapHang;
 import quanlysieuthi.danhsach.DSSP;
 import quanlysieuthi.hoadon.ChiTietHoaDon;
 import quanlysieuthi.hoadon.HoaDon;
+import quanlysieuthi.tienich.DuongDan; // THEM MOI
 
 public class QLST {
-    public static DSSP dsSP = new DSSP();
+public static DSSP dsSP = new DSSP();
     public static DSChiTietHD dsCTHD = new DSChiTietHD();
     public static DSHoaDon dsHD = new DSHoaDon();
     public static DSPhieuNhapHang dsPNH = new DSPhieuNhapHang();
@@ -29,6 +32,7 @@ public class QLST {
     public static DSKH dsKH = new DSKH();
     public static DSNV dsNV = new DSNV();
     public static DSLSP dslsp = new DSLSP();
+    public static DSHangSanXuat dsHSX = new DSHangSanXuat(); 
 
     public QLST(){}
     
@@ -105,6 +109,18 @@ public class QLST {
     }
     
     public void mua(){
+        if(dsNV.getSoLuong()==0){
+            System.out.println("Danh sach nhan vien trong.Vui long nhap danh sach nhan vien truoc khi mua");
+            return;
+        }
+        if(dsKH.getSoLuong()==0){
+            System.out.println("Danh sach khach hang trong.Vui long nhap danh sach khach hang truoc khi mua");
+            return;
+        }
+        if(dsSP.getSoLuong()==0){
+            System.out.println("Danh sach san pham trong.Vui long nhap danh sach san pham truoc khi mua");
+            return;            
+        }
         Scanner sc = new Scanner(System.in);
         String maHD,maKH,maNV,maSP,httt;
         int soLuong;
@@ -112,11 +128,25 @@ public class QLST {
         SanPham sp;
         System.out.print("Nhap ma hoa don");
         maHD = sc.nextLine();
-        System.out.print("Nhap ma nhan vien");
-        maNV = sc.nextLine();
-        System.out.print("Nhap ma khach hang");
-        maKH = sc.nextLine();
-        
+        while(true){
+            System.out.print("Nhap ma nhan vien");
+            maNV = sc.nextLine();
+            if(dsNV.tim(maNV)==null){
+                System.out.println("Ma nhan vien"+maNV+"khong ton tai.Vui long nhap lai");
+                continue;
+            }
+            break;
+        }
+        while(true){
+            System.out.print("Nhap ma khach hang");
+            maKH = sc.nextLine();
+            if(dsKH.timTheoMa(maKH)==null){
+                System.out.println("Ma khach hang"+maKH+"khong ton tai.Vui long nhap lai");
+                continue;
+            }
+            break;
+        }
+ 
         int chonTim = 0;
         System.out.println("Chon cach tim san pham");
         System.out.println("1.Tim san pham theo ma");
@@ -179,6 +209,18 @@ public class QLST {
     }
     
     public void nhapHang(){
+        if(dsNV.getSoLuong()==0){
+            System.out.println("Danh sach nhan vien trong.Vui long nhap danh sach nhan vien truoc khi mua");
+            return;
+        }
+        if(dsNCC.getSoLuong()==0){
+            System.out.println("Danh sach nha cung cap trong.Vui long nhap danh sach nha cung cap truoc khi mua");
+            return;
+        }
+        if(dsSP.getSoLuong()==0){
+            System.out.println("Danh sach san pham trong.Vui long nhap danh sach san pham truoc khi mua");
+            return;            
+        }
         Scanner sc = new Scanner(System.in);
         String maPNH,maNCC,maNV,maSP;
         int soLuong;
@@ -186,10 +228,24 @@ public class QLST {
         SanPham sp;
         System.out.println("nhap ma phieu nhap hang ");
         maPNH = sc.nextLine();
-        System.out.println("nhap ma nha cung cap ");
-        maNCC = sc.nextLine();
-        System.out.println("nhap ma nhan vien ");
-        maNV = sc.nextLine();
+        while(true){
+            System.out.print("Nhap ma nhan vien");
+            maNV = sc.nextLine();
+            if(dsNV.tim(maNV)==null){
+                System.out.println("Ma nhan vien"+maNV+"khong ton tai.Vui long nhap lai");
+                continue;
+            }
+            break;
+        }
+        while(true){
+            System.out.println("Nhap ma nha cung cap ");
+            maNCC = sc.nextLine();
+            if(dsNCC.tim(maNCC)==null){
+                System.out.println("Ma nha cung cap"+maNCC+"khong ton tai.Vui long nhap lai");
+                continue;
+            }
+            break;
+        }
 
         int chonTim = 0;
         System.out.println("Chon cach tim san pham");
@@ -252,4 +308,81 @@ public class QLST {
     }
     
     public void menu(){}
+
+    // --- CHUC NANG MOI ---
+
+    /**
+     * Ghi tat ca 10 danh sach ra file
+     */
+    public void ghiTatCaFile() {
+        System.out.println("--- BAT DAU GHI TAT CA FILE ---");
+        try {
+            dsSP.ghiFile(DuongDan.SANPHAM_FILE_PATH);
+            dsHD.ghiFile(DuongDan.HOADON_FILE_PATH);
+            dsCTHD.ghiFile(DuongDan.CTHOADON_FILE_PATH);
+            dsPNH.ghiFile(DuongDan.PHIEUNHAP_FILE_PATH);
+            dsCTPNH.ghiFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
+            dsHSX.ghiFile(DuongDan.HANGSANXUAT_FILE_PATH);
+            dsKH.ghiFile(DuongDan.KHACHHANG_FILE_PATH);
+            dslsp.ghiFile(DuongDan.LOAISANPHAM_FILE_PATH);
+            dsNCC.ghiFile(DuongDan.NHACUNGCAP_FILE_PATH);
+            dsNV.ghiFile(DuongDan.NHANVIEN_FILE_PATH);
+            System.out.println("==> GHI TAT CA FILE THANH CONG.");
+        } catch (IOException e) {
+            System.out.println("LOI: XAY RA LOI TRONG QUA TRINH GHI FILE!");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Xoa tat ca danh sach hien tai va doc lai tu 10 file
+     */
+    public void docTatCaFile() {
+        // Xoa du lieu hien tai truoc khi doc
+        xoaTatCaDanhSach();
+        
+        System.out.println("--- BAT DAU DOC TAT CA FILE ---");
+        try {
+            // Doc cac danh sach don truoc
+            dsHSX.docFile(DuongDan.HANGSANXUAT_FILE_PATH);
+            dslsp.docFile(DuongDan.LOAISANPHAM_FILE_PATH);
+            dsNCC.docFile(DuongDan.NHACUNGCAP_FILE_PATH);
+            dsKH.docFile(DuongDan.KHACHHANG_FILE_PATH);
+            dsNV.docFile(DuongDan.NHANVIEN_FILE_PATH);
+            
+            // Doc San Pham (co the phu thuoc vao HSX, LSP)
+            dsSP.docFile(DuongDan.SANPHAM_FILE_PATH);
+            
+            // Doc Hoa Don (phu thuoc vao NV, KH)
+            dsHD.docFile(DuongDan.HOADON_FILE_PATH);
+            // Doc CTHD (phu thuoc vao HD, SP)
+            dsCTHD.docFile(DuongDan.CTHOADON_FILE_PATH);
+            
+            // Doc Phieu Nhap (phu thuoc vao NV, NCC)
+            dsPNH.docFile(DuongDan.PHIEUNHAP_FILE_PATH);
+            // Doc CTPNH (phu thuoc vao PNH, SP)
+            dsCTPNH.docFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
+            
+            System.out.println("==> DOC TAT CA FILE THANH CONG.");
+        } catch (IOException e) {
+            System.out.println("LOI: XAY RA LOI TRONG QUA TRINH DOC FILE! (Co the do file trong)");
+        }
+    }
+
+    /**
+     * Xoa tat ca du lieu khoi bo nho (reset)
+     */
+    public void xoaTatCaDanhSach() {
+        dsSP = new DSSP();
+        dsCTHD = new DSChiTietHD();
+        dsHD = new DSHoaDon();
+        dsPNH = new DSPhieuNhapHang();
+        dsCTPNH = new DSChiTietPNH();
+        dsNCC = new DSNhaCungCap();
+        dsKH = new DSKH();
+        dsNV = new DSNV();
+        dslsp = new DSLSP();
+        dsHSX = new DSHangSanXuat();
+        System.out.println("DA XOA TAT CA DU LIEU TRONG BO NHO.");
+    }
 }

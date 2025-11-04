@@ -1,5 +1,8 @@
 package quanlysieuthi.SanPham;
 
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -69,5 +72,14 @@ public class LoaiSanPham {
     
     public void xuat() {
         System.out.printf("| %-10s | %-15s | %-25s |\n", MaLoai,TenLoai,MoTa);
+    }
+
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
+        outStream.writeUTF(MaLoai);
+        outStream.writeUTF(TenLoai);
+        outStream.writeUTF(MoTa);
+        outStream.close();
     }
 }

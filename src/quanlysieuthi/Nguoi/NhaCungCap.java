@@ -1,5 +1,8 @@
 package quanlysieuthi.Nguoi;
 
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 import quanlysieuthi.interfaces.INhapXuat;
@@ -62,5 +65,13 @@ public class NhaCungCap implements INhapXuat{
                           maNCC, ten, sdt, diaChi);
     }
 
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
+        outStream.writeUTF(maNCC);
+        outStream.writeUTF(ten);
+        outStream.writeUTF(sdt);
+        outStream.writeUTF(diaChi);
+        outStream.close();
+    }
 }
-

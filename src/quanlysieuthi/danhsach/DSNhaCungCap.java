@@ -1,5 +1,10 @@
 package quanlysieuthi.danhsach;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -183,5 +188,34 @@ public class DSNhaCungCap implements IDanhSach<NhaCungCap>,INhapXuat{
     public int thongKeSoLuongNhaCungCap(){
         System.out.println("So nha cung cap hien co la : " + danhSachNCC.length);
         return danhSachNCC.length;
+    }
+
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();  
+        for(int i = 0; i < danhSachNCC.length; i++){
+            danhSachNCC[i].ghiFile(tenFile);
+        }
+        System.out.println("Ghi file thanh cong");
+    }
+
+    // --- THEM MOI ---
+    public void docFile(String tenFile) throws IOException {
+        if(danhSachNCC.length != 0){
+            System.out.println("Loi!! danh sach dang chua du lieu.");
+            return;
+        }
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        try {
+            while (true) {
+                them(new NhaCungCap(inpStream.readUTF(), inpStream.readUTF(), inpStream.readUTF(),
+                                    inpStream.readUTF()));
+            }
+        } catch (Exception e) {}
+        finally{
+            inpStream.close();
+            System.out.println("Doc file thanh cong");
+        }
     }
 }

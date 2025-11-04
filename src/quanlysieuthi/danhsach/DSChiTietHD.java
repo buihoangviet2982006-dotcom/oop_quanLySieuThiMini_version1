@@ -241,4 +241,77 @@ public class DSChiTietHD implements IDanhSach<ChiTietHoaDon>, INhapXuat {
         System.out.println("So luong chi tiet hoa don la : "+danhSachCTHD.length);
         return danhSachCTHD.length;
     }
+
+    public DSChiTietHD timTheoMaHD(String maHD) {
+        DSChiTietHD dsKetQua = new DSChiTietHD();
+        for (int i = 0; i < danhSachCTHD.length; i++) {
+            if (danhSachCTHD[i].getMaHD().equalsIgnoreCase(maHD)) {
+                dsKetQua.them(new ChiTietHoaDon(danhSachCTHD[i])); 
+            }
+        }
+        return dsKetQua;
+    }
+
+    /**
+     * Ham moi: Xoa tat ca chi tiet hoa don theo MaHD
+     * Tra ve so luong chi tiet da bi xoa.
+     */
+    public int xoaTheoMaHD(String maHD) {
+        int soLuongBanDau = danhSachCTHD.length;
+        if (soLuongBanDau == 0) return 0;
+
+        // Dem so luong chi tiet se duoc giu lai
+        int countKeep = 0;
+        for (int i = 0; i < soLuongBanDau; i++) {
+            if (!danhSachCTHD[i].getMaHD().equalsIgnoreCase(maHD)) {
+                countKeep++;
+            }
+        }
+
+        // Neu khong co gi bi xoa
+        if (countKeep == soLuongBanDau) {
+            return 0;
+        }
+
+        // Tao mang moi voi kich thuoc vua du
+        ChiTietHoaDon[] newArr = new ChiTietHoaDon[countKeep];
+        int j = 0; // index cho mang moi
+        for (int i = 0; i < soLuongBanDau; i++) {
+            if (!danhSachCTHD[i].getMaHD().equalsIgnoreCase(maHD)) {
+                newArr[j++] = danhSachCTHD[i];
+            }
+        }
+
+        // Cap nhat lai danh sach
+        danhSachCTHD = newArr;
+        
+        return soLuongBanDau - countKeep; // Tra ve so luong da xoa
+    }
+
+    public void xoa(String maHD, String maSP) {
+        int vt = timViTri(maHD, maSP);
+        
+        if (vt == -1) {
+            System.out.println("Khong tim thay chi tiet voi MaHD = " + maHD + " va MaSP = " + maSP);
+            return;
+        }
+        ChiTietHoaDon[] newArr = new ChiTietHoaDon[danhSachCTHD.length - 1];
+        for (int i = 0, j = 0; i < danhSachCTHD.length; i++) {
+            if (i != vt) {
+                newArr[j++] = danhSachCTHD[i];
+            }
+        }
+        danhSachCTHD = newArr;
+        System.out.println("Da xoa chi tiet");
+    }
+
+    public void sua(String maHD, String maSP, ChiTietHoaDon cthdMoi) {
+        int vt = timViTri(maHD, maSP);
+        if (vt == -1) {
+            System.out.println("Khong tim thay chi tiet voi MaHD = " + maHD + " va MaSP = " + maSP);
+            return;
+        }
+        danhSachCTHD[vt] = cthdMoi;
+        System.out.println("Da sua thong tin!");
+    }
 }

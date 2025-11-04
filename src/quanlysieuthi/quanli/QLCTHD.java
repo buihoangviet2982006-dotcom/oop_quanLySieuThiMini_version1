@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import quanlysieuthi.SanPham.SanPham;
 import quanlysieuthi.hoadon.ChiTietHoaDon;
+import quanlysieuthi.hoadon.HoaDon;
 import quanlysieuthi.tienich.DuongDan;
 
 public class QLCTHD extends QLST{
@@ -34,12 +35,23 @@ public class QLCTHD extends QLST{
 
             switch (chon) {
                 case 1:
+                    if(dsHD.getSoLuong()==0){
+                        System.out.println("Danh sach hoa don trong.Vui long nhap danh sach hoa don");
+                        break;
+                    }
                     System.out.println("Nhap so luong chi tiet hoa don can nhap");
                     n = Integer.parseInt(sc.nextLine());
                     for(int i=0;i < n;i++){
                         System.out.println("--- Nhap chi tiet hoa don thu " + (dsCTHD.getSoLuong() + 1) + " ---"); // Cập nhật lời nhắc
-                        System.out.println("Nhap ma hoa don");
-                        maHD = sc.nextLine();
+                        while (true) {
+                            System.out.println("Nhap ma hoa don");
+                            maHD = sc.nextLine();       
+                            if(dsHD.timTheoMa(maHD)==null){
+                                System.out.println("Ma hoa don khong ton tai.Vui long nhap lai!!");
+                                continue;
+                            }
+                            break;                     
+                        }                        
                         do{
                             System.out.println("Nhap ma san pham");
                             maSP = sc.nextLine();
@@ -56,17 +68,31 @@ public class QLCTHD extends QLST{
                             }
                         }while(sp.getSoLuong()-soLuong<0);
                         dsCTHD.them(new ChiTietHoaDon(maHD, maSP,soLuong, sp.getDonGia()));
+
                         dsSP.updateSoLuong(maSP,sp.getSoLuong()-soLuong); // Cap nhat so luong
+                        HoaDon hd = dsHD.timTheoMa(maHD);
+                        hd.setTongTien(hd.getTongTien()+soLuong*sp.getDonGia());
                     }
                     System.out.println("Nhap danh sach thanh cong");
                     break;
                 case 2:
+                    if(dsHD.getSoLuong()==0){
+                        System.out.println("Danh sach hoa don trong.Vui long nhap danh sach hoa don");
+                        break;
+                    }                
                     System.out.println("Nhap so luong chi tiet hoa don can them");
                     n = Integer.parseInt(sc.nextLine());
                     for(int i=0;i < n;i++){
                         System.out.println("--- Them chi tiet hoa don thu " + (dsCTHD.getSoLuong()+1) + " ---");
-                        System.out.println("Nhap ma hoa don");
-                        maHD = sc.nextLine();
+                        while (true) {
+                            System.out.println("Nhap ma hoa don");
+                            maHD = sc.nextLine();       
+                            if(dsHD.timTheoMa(maHD)==null){
+                                System.out.println("Ma hoa don khong ton tai.Vui long nhap lai!!");
+                                continue;
+                            }
+                            break;                     
+                        }  
                         do{
                             System.out.println("Nhap ma san pham");
                             maSP = sc.nextLine();
@@ -84,6 +110,9 @@ public class QLCTHD extends QLST{
                         }while(sp.getSoLuong()-soLuong<0);
                         dsCTHD.them(new ChiTietHoaDon(maHD, maSP,soLuong, sp.getDonGia()));
                         dsSP.updateSoLuong(maSP,sp.getSoLuong()-soLuong); // Cap nhat so luong
+
+                        HoaDon hd = dsHD.timTheoMa(maHD);
+                        hd.setTongTien(hd.getTongTien()+soLuong*sp.getDonGia());
                     }
                     System.out.println("Them thanh cong");
                     break;
@@ -108,10 +137,11 @@ public class QLCTHD extends QLST{
                         break;
                     }
 
+                    HoaDon hd = dsHD.timTheoMa(maHD_sua);
                     int oldQuantity = cthd.getSoLuong();
                     int currentStock = sp_sua.getSoLuong();
                     int newQuantity;
-
+                    hd.setTongTien(hd.getTongTien() - cthd.getThanhTien());
                     while (true) {
                         try {
                             System.out.print("Nhap so luong moi (so luong cu: " + oldQuantity + "): ");
@@ -133,6 +163,7 @@ public class QLCTHD extends QLST{
                                 cthd.setSoLuong(newQuantity);
                                 cthd.setDonGia(newDonGia);
                                 dsSP.updateSoLuong(maSP_sua, newStock);
+                                hd.setTongTien(hd.getTongTien() + newQuantity*newDonGia);
 
                                 System.out.println("==> Sua thanh cong! Ton kho moi cua SP " + maSP_sua + ": " + newStock);
                                 break;
@@ -163,7 +194,9 @@ public class QLCTHD extends QLST{
                         System.out.println("Loi: Khong tim thay san pham " + maSP_xoa + " trong kho (Du lieu khong dong bo).");
                         break;
                     }
-
+                    HoaDon hd = dsHD.timTheoMa(maHD_xoa);
+                    hd.setTongTien(hd.getTongTien()-cthd_xoa.getThanhTien());
+                    
                     int deletedQuantity = cthd_xoa.getSoLuong();
                     int currentStock = sp_xoa.getSoLuong();
                     int newStock = currentStock + deletedQuantity; // Hoan tra hang ve kho
@@ -198,18 +231,18 @@ public class QLCTHD extends QLST{
                     break;
                 case 8:
                     try {
-                        dsCTHD.ghiFile(DuongDan.CTHOADON_FILE_PATH);
-                        break;                        
+                        dsCTHD.ghiFile(DuongDan.CTHOADON_FILE_PATH);                        
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
+                    break;                    
                 case 9:
                     try {
                         dsCTHD.docFile(DuongDan.CTHOADON_FILE_PATH);
-                        break;
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
                     } 
+                    break;
                 case 10:
                     System.out.println("Thoat danh sach chi tiet hoa don");
                     break;

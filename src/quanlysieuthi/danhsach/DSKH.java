@@ -1,5 +1,10 @@
 package quanlysieuthi.danhsach;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 import quanlysieuthi.Nguoi.KhachHang;
 import quanlysieuthi.interfaces.IDanhSach;
@@ -165,5 +170,77 @@ public class DSKH implements IDanhSach<KhachHang>,INhapXuat{
     public int thongKeSoLuong(){
         System.out.println("So luong khach hang la : "+danhSachKH.length);
         return danhSachKH.length;
+    }
+
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();  
+        for(int i = 0; i < danhSachKH.length; i++){
+            danhSachKH[i].ghiFile(tenFile);
+        }
+        System.out.println("Ghi file thanh cong");
+    }
+
+    // --- THEM MOI ---
+    public void docFile(String tenFile) throws IOException {
+        if(danhSachKH.length != 0){
+            System.out.println("Loi!! danh sach dang chua du lieu.");
+            return;
+        }
+        DataInputStream inpStream = new DataInputStream(new FileInputStream(tenFile));
+        try {
+            while (true) {
+                them(new KhachHang(inpStream.readUTF(), inpStream.readUTF(), inpStream.readUTF(),
+                                   inpStream.readUTF(), inpStream.readUTF(), inpStream.readUTF(),
+                                   inpStream.readUTF()));
+            }
+        } catch (Exception e) {}
+        finally{
+            inpStream.close();
+            System.out.println("Doc file thanh cong");
+        }
+    }
+
+
+    public void xoa(String ma) {
+        int vt = -1;
+        for (int i = 0; i < danhSachKH.length; i++) {
+            if (danhSachKH[i].getMaKH().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay khach hang co maKH = " + ma);
+            return;
+        }
+
+        KhachHang[] newArr = new KhachHang[danhSachKH.length - 1];
+        for (int i = 0, j = 0; i < danhSachKH.length; i++) {
+            if (i != vt) {
+                newArr[j++] = danhSachKH[i];
+            }
+        }
+        danhSachKH = newArr;
+
+        System.out.println("Da xoa khach hang co maKH = " + ma);
+    }
+
+
+    public void sua(String ma, KhachHang khMoi) {
+        int vt = -1;
+        for (int i = 0; i < danhSachKH.length; i++) {
+            if (danhSachKH[i].getMaKH().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay khach hang co maKH = " + ma);
+            return;
+        }
+        danhSachKH[vt] = khMoi;
+        System.out.println("Da sua thong tin!");
     }
 }

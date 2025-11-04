@@ -40,9 +40,27 @@ public class QLHD extends QLST{
                 case 4:
                     dsHD.sua();
                     break;
-                case 5:
-                    dsHD.xoa();
+                case 5: { // Xoa hoa don (đã cập nhật logic)
+                    if (dsHD.getSoLuong() == 0) {
+                        System.out.println("Danh sach hoa don rong!");
+                        break;
+                    }
+                    System.out.print("Nhap maHD can xoa: ");
+                    String ma = sc.nextLine();
+                    
+                    if (dsHD.timTheoMa(ma) == null) { 
+                        System.out.println("Khong tim thay hoa don co maHD = " + ma);
+                        break;
+                    }
+
+                    int soLuongCTDaXoa = dsCTHD.xoaTheoMaHD(ma); 
+                    if (soLuongCTDaXoa > 0) {
+                        System.out.println("=> Da tu dong xoa " + soLuongCTDaXoa + " chi tiet hoa don lien quan.");
+                    }
+
+                    dsHD.xoa(ma); 
                     break;
+                }
                 case 6:
                     dsHD.timHoaDon();
                     break;
@@ -51,21 +69,21 @@ public class QLHD extends QLST{
                     break;
                 case 8:
                     try {
-                        dsHD.ghiFile(DuongDan.HOADON_FILE_PATH);
-                        break;
+                        dsHD.ghiFile(DuongDan.HOADON_FILE_PATH);                        
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
+                    break;
                 case 9:
                     try {
                         dsHD.docFile(DuongDan.HOADON_FILE_PATH);
-                        break;                        
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
-                    }                                    
+                    } 
+                    break;                                   
                 case 10:
                     System.out.println("Thoat danh sach hoa don");
-                    break;
+                    return;
                 default:
                     System.out.println("Lua chon khong hop le");
             }

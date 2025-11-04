@@ -160,13 +160,13 @@ public class DSSP implements IDanhSach<SanPham>,INhapXuat{
     public void xoaTheoTenSP(String tenSanPham){
         int vt = -1;
         for(int i=0;i < danhSachSP.length;i++){
-            if(tenSanPham.equalsIgnoreCase(danhSachSP[i].getMaSP())){
+            if(tenSanPham.equalsIgnoreCase(danhSachSP[i].getTenSP())){
                 vt = i;
                 break;
             }
         }
         if(vt==-1){
-            System.out.println("Khong tim thay ma san pham");
+            System.out.println("Khong tim thay ten san pham");
             return;
         }
         for(int j = vt;j < danhSachSP.length-1 ; j++){

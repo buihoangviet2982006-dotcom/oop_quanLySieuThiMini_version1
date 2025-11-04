@@ -199,15 +199,15 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
     }
 
     public void ghiFile(String tenFile) throws IOException{
+        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
+        xoaFile.close();
         for(int i=0;i<danhSachCTPNH.length;i++){
             danhSachCTPNH[i].ghiFile(tenFile);
         }
         System.out.println("Ghi file thanh cong");
     }
     public void docFile(String tenFile) throws IOException{
-        // xoa du lieu tu file cu
-        DataOutputStream xoaFile = new DataOutputStream(new FileOutputStream(tenFile, false)); 
-        xoaFile.close();  
+        // xoa du lieu tu file cu  
         if(danhSachCTPNH.length!=0){
             System.out.println("Loi!! danh sach dang chua du lieu.");
             return;
@@ -227,5 +227,80 @@ public class DSChiTietPNH implements IDanhSach<ChiTietPhieuNhap>, INhapXuat {
     public int thongKeSoLuong(){
         System.out.println("So luong chi tiet phieu nhap hang la : "+danhSachCTPNH.length);
         return danhSachCTPNH.length;
+    }
+
+    public DSChiTietPNH timTheoMaPNH(String maPNH) {
+        DSChiTietPNH dsKetQua = new DSChiTietPNH();
+        for (int i = 0; i < danhSachCTPNH.length; i++) {
+            if (danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH)) {
+                dsKetQua.them(new ChiTietPhieuNhap(danhSachCTPNH[i])); 
+            }
+        }
+        return dsKetQua;
+    }
+
+    /**
+     * Ham moi: Xoa tat ca chi tiet phieu nhap theo MaPNH
+     * Tra ve so luong chi tiet da bi xoa.
+     */
+    public int xoaTheoMaPNH(String maPNH) {
+        int soLuongBanDau = danhSachCTPNH.length;
+        if (soLuongBanDau == 0) return 0;
+
+        // Dem so luong chi tiet se duoc giu lai
+        int countKeep = 0;
+        for (int i = 0; i < soLuongBanDau; i++) {
+            if (!danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH)) {
+                countKeep++;
+            }
+        }
+
+        // Neu khong co gi bi xoa
+        if (countKeep == soLuongBanDau) {
+            return 0;
+        }
+
+        // Tao mang moi voi kich thuoc vua du
+        ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[countKeep];
+        int j = 0; // index cho mang moi
+        for (int i = 0; i < soLuongBanDau; i++) {
+            if (!danhSachCTPNH[i].getMaPNH().equalsIgnoreCase(maPNH)) {
+                newArr[j++] = danhSachCTPNH[i];
+            }
+        }
+
+        // Cap nhat lai danh sach
+        danhSachCTPNH = newArr;
+        
+        return soLuongBanDau - countKeep; // Tra ve so luong da xoa
+    }
+
+    public void xoa(String maPNH, String maSP) {
+        int vt = timViTri(maPNH, maSP);
+
+        if (vt == -1) {
+            System.out.println("Khong tim thay chi tiet voi MaPNH = " + maPNH + " va MaSP = " + maSP);
+            return;
+        }
+
+        ChiTietPhieuNhap[] newArr = new ChiTietPhieuNhap[danhSachCTPNH.length - 1];
+        for (int i = 0, j = 0; i < danhSachCTPNH.length; i++) {
+            if (i != vt) {
+                newArr[j++] = danhSachCTPNH[i];
+            }
+        }
+        danhSachCTPNH = newArr;
+        System.out.println("Da xoa chi tiet");
+    }
+
+
+    public void sua(String maPNH, String maSP, ChiTietPhieuNhap ctpnMoi) {
+        int vt = timViTri(maPNH, maSP);
+        if (vt == -1) {
+            System.out.println("Khong tim thay chi tiet voi MaPNH = " + maPNH + " va MaSP = " + maSP);
+            return;
+        }
+        danhSachCTPNH[vt] = ctpnMoi;
+        System.out.println("Da sua thong tin!");
     }
 }

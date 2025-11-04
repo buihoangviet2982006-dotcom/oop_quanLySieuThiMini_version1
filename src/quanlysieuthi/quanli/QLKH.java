@@ -1,8 +1,10 @@
 package quanlysieuthi.quanli;
 
+import java.io.IOException; // THEM MOI
 import java.util.Scanner;
 
 import quanlysieuthi.Nguoi.KhachHang;
+import quanlysieuthi.tienich.DuongDan; // THEM MOI
 
 public class QLKH extends QLST{
     @Override
@@ -20,7 +22,9 @@ public class QLKH extends QLST{
             System.out.println("5.Xoa");
             System.out.println("6.Tim");
             System.out.println("7.Thong ke so luong khach hang");
-            System.out.println("8.Thoat");
+            System.out.println("8.Ghi FILE"); // THEM MOI
+            System.out.println("9.Doc FILE"); // THEM MOI
+            System.out.println("10.Thoat"); // THAY DOI SO
             System.out.println("Chon: ");
             chon = Integer.parseInt(sc.nextLine());
             switch (chon) {
@@ -54,6 +58,22 @@ public class QLKH extends QLST{
                 case 7:
                     dsKH.thongKeSoLuong();
                     break;    
+                // --- THEM MOI ---
+                case 8:
+                    try {
+                        dsKH.ghiFile(DuongDan.KHACHHANG_FILE_PATH);
+                    } catch (IOException e) {
+                        System.out.println("Ghi File loi!!!");
+                    }
+                    break;
+                case 9:
+                    try {
+                        dsKH.docFile(DuongDan.KHACHHANG_FILE_PATH);
+                    } catch (IOException e) {
+                        System.out.println("Doc File loi!!!");
+                    }
+                    break;
+                // --- KET THUC THEM MOI ---
                 default:
                     return;
             }

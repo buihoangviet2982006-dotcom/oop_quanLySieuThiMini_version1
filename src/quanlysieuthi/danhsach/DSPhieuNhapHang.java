@@ -245,4 +245,44 @@ public class DSPhieuNhapHang implements IDanhSach<PhieuNhapHang>,INhapXuat{
         System.out.println("So luong phieu nhap hang la : "+danhSachPNH.length);
         return danhSachPNH.length;
     }
+
+    public void xoa(String ma) {
+        int vt = -1;
+        for (int i = 0; i < danhSachPNH.length; i++) {
+            if (danhSachPNH[i].getMaPNH().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay phieu co maPNH = " + ma);
+            return;
+        }
+
+        PhieuNhapHang[] newArr = new PhieuNhapHang[danhSachPNH.length - 1];
+        for (int i = 0, j = 0; i < danhSachPNH.length; i++) {
+            if (i != vt) {
+                newArr[j++] = danhSachPNH[i];
+            }
+        }
+        danhSachPNH = newArr;
+
+        System.out.println("Da xoa phieu co maPNH = " + ma);
+    }
+
+    public void sua(String ma, PhieuNhapHang pMoi) {
+        int vt = -1;
+        for (int i = 0; i < danhSachPNH.length; i++) {
+            if (danhSachPNH[i].getMaPNH().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay phieu co maPNH = " + ma);
+            return;
+        }
+        danhSachPNH[vt] = pMoi;
+        System.out.println("Da sua thong tin!");
+    }
 }

@@ -1,5 +1,8 @@
 package quanlysieuthi.SanPham;
 
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 
@@ -109,4 +112,14 @@ public class HangSanXuat {
         System.out.println("Nam Thanh Lap: " + NamThanhLap);
     }
 
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
+        outStream.writeUTF(MaHang);
+        outStream.writeUTF(TenHang);
+        outStream.writeUTF(DiaChi);
+        outStream.writeUTF(LienHe);
+        outStream.writeUTF(NamThanhLap);
+        outStream.close();
+    }
 }

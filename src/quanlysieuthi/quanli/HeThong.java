@@ -23,10 +23,14 @@ public class HeThong {
             System.out.println("7.Quan ly khach hang");
             System.out.println("8.Quan ly nhan vien");
             System.out.println("9.Quan ly loai san pham");
-            System.out.println("10.Mua hang");
-            System.out.println("11.Nhap hang");
-            System.out.println("12.Thong ke");
-            System.out.println("13.Thoat");
+            System.out.println("10.Quan ly hang san xuat"); 
+            System.out.println("11.Mua hang"); 
+            System.out.println("12.Nhap hang"); 
+            System.out.println("13.Thong ke");
+            System.out.println("14.Luu tat ca du lieu (GHI FILE)");  
+            System.out.println("15.Tai tat ca du lieu (DOC FILE)"); 
+            System.out.println("16.Xoa tat ca du lieu (TU TRONG)"); 
+            System.out.println("17.Thoat");
             System.out.println("Chon :");
             chon = Integer.parseInt(sc.nextLine());
             switch (chon) {
@@ -65,19 +69,35 @@ public class HeThong {
                 case 9:
                     qlst = new QLLSP();
                     qlst.menu();
-                    break;                    
-                case 10:
+                    break;
+                case 10: 
+                    qlst = new QLHSX();
+                    qlst.menu();
+                    break;
+                case 11: 
                     qlst = new QLST();
                     qlst.mua();
                     break;  
-                case 11:
+                case 12: 
                     qlst = new QLST();
                     qlst.nhapHang();
                     break; 
-                case 12:
+                case 13: 
                     qlst = new QLST();
                     qlst.menuThongKe();
-                    break;             
+                    break;   
+                case 14: 
+                    qlst = new QLST();
+                    qlst.ghiTatCaFile();
+                    break;
+                case 15:
+                    qlst = new QLST();
+                    qlst.docTatCaFile();
+                    break;
+                case 16:
+                    qlst = new QLST();
+                    qlst.xoaTatCaDanhSach();
+                    break;            
                 default:
                     return;
             }

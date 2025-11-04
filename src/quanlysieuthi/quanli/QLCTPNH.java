@@ -3,7 +3,9 @@ package quanlysieuthi.quanli;
 import java.io.IOException;
 import java.util.Scanner;
 
+// THEM MOI DE TRUY CAP dsPNH VA PhieuNhapHang
 import quanlysieuthi.Phieu.ChiTietPhieuNhap;
+import quanlysieuthi.Phieu.PhieuNhapHang; 
 import quanlysieuthi.SanPham.SanPham;
 import quanlysieuthi.tienich.DuongDan;
 
@@ -34,12 +36,26 @@ public class QLCTPNH extends QLST{
 
             switch (chon) {
                 case 1:
+                    if(dsPNH.getSoLuong()==0){
+                        System.out.println("Danh sach phieu nhap hang trong.Vui long nhap danh sach phieu nhap hang");
+                        break;
+                    }
                     System.out.println("Nhap so luong chi tiet phieu nhap hang can nhap");
                     n = Integer.parseInt(sc.nextLine());
                     for(int i=0;i < n;i++){
                         System.out.println("--- Nhap chi tiet phieu nhap thu " + (dsCTPNH.getSoLuong() + 1) + " ---"); // Cập nhật lời nhắc
-                        System.out.println("Nhap ma phieu nhap hang");
-                        maPNH = sc.nextLine();
+                        PhieuNhapHang pnh; // --- SUA DOI ---
+                        while (true) {
+                            System.out.println("Nhap ma phieu nhap hang");
+                            maPNH = sc.nextLine();       
+                            pnh = dsPNH.timTheoMa(maPNH); // --- SUA DOI ---
+                            if(pnh == null){ // --- SUA DOI ---
+                                System.out.println("Ma phieu nhap hang khong ton tai.Vui long nhap lai!!");
+                                continue;
+                            }
+                            break;                     
+                        }
+
                         do{
                             System.out.println("Nhap ma san pham");
                             maSP = sc.nextLine();
@@ -52,16 +68,33 @@ public class QLCTPNH extends QLST{
                         soLuong = Integer.parseInt(sc.nextLine());
                         dsCTPNH.them(new ChiTietPhieuNhap(maPNH, maSP,soLuong, sp.getDonGia()));
                         dsSP.updateSoLuong(maSP,sp.getSoLuong()+soLuong); // Cap nhat so luong
+                        
+                        // --- SUA DOI: CAP NHAT TONG TIEN PHIEU NHAP ---
+                        pnh.setTongTien(pnh.getTongTien() + (soLuong * sp.getDonGia()));
+                        // --- KET THUC SUA DOI ---
                     }
                     System.out.println("Nhap danh sach thanh cong");
                     break;
                 case 2:
+                    if(dsPNH.getSoLuong()==0){
+                        System.out.println("Danh sach phieu nhap hang trong.Vui long nhap danh sach phieu nhap hang");
+                        break;
+                    }
                     System.out.println("Nhap so luong chi tiet phieu nhap hang can them");
                     n = Integer.parseInt(sc.nextLine());
                     for(int i=0;i < n;i++){
                         System.out.println("--- Them chi tiet phieu nhap thu " + (dsCTPNH.getSoLuong()+1) + " ---");
-                        System.out.println("Nhap ma phieu nhap hang");
-                        maPNH = sc.nextLine();
+                        PhieuNhapHang pnh; // --- SUA DOI ---
+                        while (true) {
+                            System.out.println("Nhap ma phieu nhap hang");
+                            maPNH = sc.nextLine();       
+                            pnh = dsPNH.timTheoMa(maPNH); // --- SUA DOI ---
+                            if(pnh == null){ // --- SUA DOI ---
+                                System.out.println("Ma phieu nhap hang khong ton tai.Vui long nhap lai!!");
+                                continue;
+                            }
+                            break;                     
+                        }
                         do{
                             System.out.println("Nhap ma san pham");
                             maSP = sc.nextLine();
@@ -74,6 +107,10 @@ public class QLCTPNH extends QLST{
                         soLuong = Integer.parseInt(sc.nextLine());
                         dsCTPNH.them(new ChiTietPhieuNhap(maPNH, maSP,soLuong, sp.getDonGia()));
                         dsSP.updateSoLuong(maSP,sp.getSoLuong()+soLuong); // Cap nhat so luong
+                        
+                        // --- SUA DOI: CAP NHAT TONG TIEN PHIEU NHAP ---
+                        pnh.setTongTien(pnh.getTongTien() + (soLuong * sp.getDonGia()));
+                        // --- KET THUC SUA DOI ---
                     }
                     System.out.println("Them thanh cong");
                     break;
@@ -97,6 +134,15 @@ public class QLCTPNH extends QLST{
                         System.out.println("Loi: Khong tim thay san pham " + maSP_sua + " trong kho (Du lieu khong dong bo).");
                         break;
                     }
+                    
+                    // --- SUA DOI: TIM PNH VA TRU TIEN CU ---
+                    PhieuNhapHang pnh_sua = dsPNH.timTheoMa(maPNH_sua);
+                    if (pnh_sua == null) {
+                         System.out.println("Loi: Khong tim thay phieu nhap hang cha " + maPNH_sua + " (Du lieu khong dong bo).");
+                         break;
+                    }
+                    pnh_sua.setTongTien(pnh_sua.getTongTien() - ctpn.getThanhTien());
+                    // --- KET THUC SUA DOI ---
 
                     int oldQuantity = ctpn.getSoLuong();
                     int currentStock = sp_sua.getSoLuong();
@@ -123,6 +169,10 @@ public class QLCTPNH extends QLST{
                                 ctpn.setSoLuong(newQuantity);
                                 ctpn.setDonGia(newDonGia);
                                 dsSP.updateSoLuong(maSP_sua, newStock);
+                                
+                                // --- SUA DOI: CAP NHAT TONG TIEN MOI ---
+                                pnh_sua.setTongTien(pnh_sua.getTongTien() + (newQuantity * newDonGia));
+                                // --- KET THUC SUA DOI ---
 
                                 System.out.println("==> Sua thanh cong! Ton kho moi cua SP " + maSP_sua + ": " + newStock);
                                 break;
@@ -153,13 +203,26 @@ public class QLCTPNH extends QLST{
                         System.out.println("Loi: Khong tim thay san pham " + maSP_xoa + " trong kho (Du lieu khong dong bo).");
                         break;
                     }
+                    
+                    // --- SUA DOI: TIM PNH VA TRU TIEN ---
+                    PhieuNhapHang pnh_xoa = dsPNH.timTheoMa(maPNH_xoa);
+                     if (pnh_xoa == null) {
+                         System.out.println("Loi: Khong tim thay phieu nhap hang cha " + maPNH_xoa + " (Du lieu khong dong bo).");
+                         break;
+                    }
+                    pnh_xoa.setTongTien(pnh_xoa.getTongTien() - ctpn_xoa.getThanhTien());
+                    // --- KET THUC SUA DOI ---
 
                     int deletedQuantity = ctpn_xoa.getSoLuong();
                     int currentStock = sp_xoa.getSoLuong();
                     int newStock = currentStock - deletedQuantity; // Rut hang khoi kho
 
                     if (newStock < 0) {
-                        System.out.println("Loi: Khong a xoa. Ton kho se bi am (" + newStock + ").");
+                        System.out.println("Loi: Khong the xoa. Ton kho se bi am (" + newStock + ").");
+                        
+                        // --- SUA DOI: HOAN TAC VIEC TRU TIEN NEU XOA LOI ---
+                        pnh_xoa.setTongTien(pnh_xoa.getTongTien() + ctpn_xoa.getThanhTien());
+                        // --- KET THUC SUA DOI ---
                         break;
                     }
 
@@ -198,13 +261,14 @@ public class QLCTPNH extends QLST{
                     } catch (IOException e) {
                         System.out.println("Ghi File loi!!!");
                     }
+                    break;
                 case 9:
                     try {
                         dsCTPNH.docFile(DuongDan.CTPHIEUNHAP_FILE_PATH);
-                        break;
                     } catch (IOException e) {
                         System.out.println("Doc File loi!!!");
-                    } 
+                    }
+                    break; 
                 case 10:
                     System.out.println("Thoat danh sach chi tiet phieu nhap");
                     break;

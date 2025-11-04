@@ -415,4 +415,44 @@ public class DSHoaDon implements IDanhSach<HoaDon>,INhapXuat{
         System.out.println("So luong hoa don la : "+danhSachHD.length);
         return danhSachHD.length;
     }
+
+    public void xoa(String ma) {
+        int vt = -1;
+        for (int i = 0; i < danhSachHD.length; i++) {
+            if (danhSachHD[i].getMaHD().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay hoa don co maHD = " + ma);
+            return;
+        }
+
+        HoaDon[] newArr = new HoaDon[danhSachHD.length - 1];
+        for (int i = 0, j = 0; i < danhSachHD.length; i++) {
+            if (i != vt) {
+                newArr[j++] = danhSachHD[i];
+            }
+        }
+        danhSachHD = newArr;
+        System.out.println("Da xoa hoa don co maHD = " + ma);
+    }
+
+
+    public void sua(String ma, HoaDon hdMoi) {
+        int vt = -1;
+        for (int i = 0; i < danhSachHD.length; i++) {
+            if (danhSachHD[i].getMaHD().equalsIgnoreCase(ma)) {
+                vt = i;
+                break;
+            }
+        }
+        if (vt == -1) {
+            System.out.println("Khong tim thay hoa don co maHD = " + ma);
+            return;
+        }
+        danhSachHD[vt] = hdMoi;
+        System.out.println("Da sua thong tin");
+    }
 }

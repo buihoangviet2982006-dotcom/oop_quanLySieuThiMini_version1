@@ -1,4 +1,7 @@
 package quanlysieuthi.Nguoi;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 import quanlysieuthi.interfaces.INhapXuat;
@@ -101,5 +104,20 @@ public class NhanVien implements INhapXuat{
     public void xuat() {
         System.out.printf("| %-10s | %-10s | %-10s | %-8s | %-10s | %-12s | %-15s | %-20s | %-10.2f |\n",
                           maNV, ho, ten, gioiTinh, maChucVu, sdt, diaChi, email, luong);
+    }
+
+    // --- THEM MOI ---
+    public void ghiFile(String tenFile) throws IOException {
+        DataOutputStream outStream = new DataOutputStream(new FileOutputStream(tenFile, Boolean.TRUE));
+        outStream.writeUTF(maNV);
+        outStream.writeUTF(ho);
+        outStream.writeUTF(ten);
+        outStream.writeUTF(gioiTinh);
+        outStream.writeUTF(maChucVu);
+        outStream.writeUTF(sdt);
+        outStream.writeUTF(diaChi);
+        outStream.writeUTF(email);
+        outStream.writeDouble(luong);
+        outStream.close();
     }
 }
